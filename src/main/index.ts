@@ -62,9 +62,11 @@ app.whenReady().then(() => {
   ipcMain.handle('library:scanMusicFolder', async (_, folderPath: string) => {
     const entries = await readdir(folderPath)
 
-    const musicFiles = entries.filter((file) =>
-      SUPPORTED_EXTENSIONS.includes(extname(file).toLowerCase())
-    )
+    const musicFiles = entries
+  .filter((file) =>
+    SUPPORTED_EXTENSIONS.includes(extname(file).toLowerCase())
+  )
+  .sort((a, b) => a.localeCompare(b))
 
     return musicFiles
   })

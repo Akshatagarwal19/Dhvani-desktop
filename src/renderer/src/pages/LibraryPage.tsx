@@ -42,7 +42,7 @@ function LibraryPage() {
       ) : (
         <p>No music folder selected.</p>
       )}
-      <h2>Tracks</h2>
+      <h2>Tracks ({tracks.length})</h2>
 
       {tracks.length === 0 ? (
         <p>No supported audio files found.</p>
