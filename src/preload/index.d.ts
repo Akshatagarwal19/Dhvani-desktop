@@ -5,6 +5,7 @@ declare global {
     electron: ElectronAPI
     api: {
       selectFolder: () => Promise<string | null>
+      scanMusicFolder: (folderPath: string) => Promise<string[]>
     }
   }
 }

@@ -170,3 +170,74 @@ Allow the user to:
 This will be the first feature that connects the Renderer, Preload, and Main processes through Electron IPC.
 
 ---
+# Session 2 – Native Folder Picker
+
+**Date:** 27 June 2026
+
+## Sprint Goal
+Implement the first native desktop feature by allowing the user to select a music folder using the Windows folder picker.
+
+---
+
+## Completed
+
+### Electron IPC
+Successfully implemented communication between:
+- Renderer Process
+- Preload Script
+- Main Process
+
+using Electron IPC.
+
+### Native Folder Picker
+- Added a "Select Music Folder" button to the Library page.
+- Opened the native Windows folder selection dialog.
+- Returned the selected folder path to the renderer.
+- Displayed the selected folder path in the UI.
+
+### Infrastructure Improvements
+- Restored the Electron Main Process after the temporary debugging setup.
+- Restored proper preload configuration.
+- Cleaned the TypeScript configuration by removing unused `baseUrl` and `paths`.
+- Verified the project with:
+  - `npm run dev`
+  - `npm run typecheck`
+
+---
+
+## Challenges
+
+- Restoring the Electron foundation without breaking the existing application.
+- Understanding the complete Electron communication flow between the Main Process, Preload Script and Renderer.
+
+---
+
+## Lessons Learned
+
+- Electron applications communicate using IPC.
+- The Renderer should never directly access native APIs.
+- The Preload Script acts as a secure bridge between the UI and the Main Process.
+- Building and verifying one layer at a time makes debugging much easier.
+
+---
+
+## Milestone Achieved
+
+The first native desktop feature of Dhvani is now complete.
+
+The application can successfully communicate with the operating system and receive data back into the React application.
+
+---
+
+## Next Sprint
+
+### Feature
+Music Library Scanner
+
+### Objectives
+- Read the selected folder.
+- Detect supported audio files.
+- Display the list of songs in the Library page.
+- Ignore unsupported files.
+
+This will be the first step toward building Dhvani's music library.

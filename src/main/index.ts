@@ -1,6 +1,16 @@
 import { app, shell, BrowserWindow, dialog, ipcMain } from 'electron'
-import { join } from 'path'
+import { readdir } from 'fs/promises'
+import { extname, join } from 'path'
 import { electronApp, optimizer } from '@electron-toolkit/utils'
+
+const SUPPORTED_EXTENSIONS = [
+  '.mp3',
+  '.flac',
+  '.wav',
+  '.m4a',
+  '.aac',
+  '.ogg'
+]
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -49,6 +59,15 @@ app.whenReady().then(() => {
     return result.filePaths[0]
   })
 
+  ipcMain.handle('library:scanMusicFolder', async (_, folderPath: string) => {
+    const entries = await readdir(folderPath)
+
+    const musicFiles = entries.filter((file) =>
+      SUPPORTED_EXTENSIONS.includes(extname(file).toLowerCase())
+    )
+
+    return musicFiles
+  })
   createWindow()
 
   app.on('activate', () => {
