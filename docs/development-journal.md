@@ -241,3 +241,104 @@ Music Library Scanner
 - Ignore unsupported files.
 
 This will be the first step toward building Dhvani's music library.
+# Session 3 – Music Library Scanner
+
+**Date:** 27 June 2026
+
+## Sprint Goal
+Scan the selected music folder and display supported audio files.
+
+---
+
+## Completed
+
+- Added folder scanning using Node.js `fs/promises`.
+- Filtered supported audio formats:
+  - MP3
+  - FLAC
+  - WAV
+  - M4A
+  - AAC
+  - OGG
+- Displayed the scanned tracks in the Library page.
+- Introduced the `Track` model in the renderer.
+- Displayed the total number of tracks.
+- Sorted tracks alphabetically before displaying them.
+
+---
+
+## Lessons Learned
+
+- Electron IPC can be reused for different native operations.
+- The Main Process should focus on filesystem operations.
+- The Renderer should transform raw filesystem data into application models.
+- Building one layer at a time makes debugging much easier.
+
+---
+
+## Next Sprint
+
+Read embedded metadata from audio files.
+
+Display:
+- Title
+- Artist
+- Album
+- Duration
+
+instead of only filenames.
+
+# Sprint 4 – Metadata Reader
+
+**Date:** 27 June 2026
+
+## Sprint Goal
+
+Read embedded metadata from supported audio files and display meaningful music information instead of only filenames.
+
+---
+
+## Features Implemented
+
+* Integrated the `music-metadata` library.
+* Read metadata for all supported audio files.
+* Extracted:
+
+  * Title
+  * Artist
+  * Album
+  * Duration
+* Added graceful fallbacks for missing metadata.
+* Displayed formatted metadata in the Library page.
+* Created a reusable duration formatting utility.
+* Continued using Electron IPC for communication between the renderer and main process.
+
+---
+
+## Design Decisions
+
+* Kept the existing project structure instead of introducing a `shared` folder.
+* Decided to postpone project restructuring until multiple shared models exist.
+* Chose to keep feature development and architectural refactoring as separate efforts.
+
+---
+
+## Lessons Learned
+
+* `music-metadata` provides much richer information than initially expected, including artwork, bitrate, sample rate, genre, and year.
+* Building features one verified layer at a time (Main → Preload → Renderer → UI) greatly simplifies debugging.
+* Returning richer objects from the main process simplifies renderer logic.
+
+---
+
+## Product Decisions
+
+* Dhvani is being developed as a **Music Library Manager**, not just a duplicate finder.
+* Metadata management is considered a core capability.
+* Editing metadata will be prioritized before duplicate detection.
+
+---
+
+## Next Sprint
+
+Focus on completing metadata support by expanding available fields and preparing the application for metadata editing.

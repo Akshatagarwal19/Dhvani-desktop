@@ -2,6 +2,7 @@ import { app, shell, BrowserWindow, dialog, ipcMain } from 'electron'
 import { readdir } from 'fs/promises'
 import { extname, join } from 'path'
 import { electronApp, optimizer } from '@electron-toolkit/utils'
+import { parseFile } from 'music-metadata'
 
 const SUPPORTED_EXTENSIONS = [
   '.mp3',
@@ -63,12 +64,30 @@ app.whenReady().then(() => {
     const entries = await readdir(folderPath)
 
     const musicFiles = entries
-  .filter((file) =>
-    SUPPORTED_EXTENSIONS.includes(extname(file).toLowerCase())
-  )
-  .sort((a, b) => a.localeCompare(b))
+      .filter((file) =>
+        SUPPORTED_EXTENSIONS.includes(extname(file).toLowerCase())
+      )
+      .sort((a, b) => a.localeCompare(b))
 
-    return musicFiles
+    const tracks = await Promise.all(
+      musicFiles.map(async (file) => {
+        const fullPath = join(folderPath, file)
+        const metadata = await parseFile(fullPath)
+
+        return {
+          name: file,
+          path: fullPath,
+          extension: extname(file).toLowerCase(),
+
+          title: metadata.common.title,
+          artist: metadata.common.artist,
+          album: metadata.common.album,
+          duration: metadata.format.duration
+        }
+      })
+    )
+
+    return tracks
   })
   createWindow()
 

@@ -11,15 +11,11 @@ function LibraryPage() {
     if (folder) {
       setSelectedFolder(folder)
 
-      const files = await window.api.scanMusicFolder(folder)
-
-      const scannedTracks: Track[] = files.map((file) => ({
-        name: file,
-        path: `${folder}\\${file}`,
-        extension: file.substring(file.lastIndexOf('.'))
-      }))
+      const scannedTracks = await window.api.scanMusicFolder(folder)
 
       setTracks(scannedTracks)
+
+      console.log(scannedTracks)
       console.log(scannedTracks)
     }
   }
@@ -49,7 +45,22 @@ function LibraryPage() {
       ) : (
         <ul>
           {tracks.map((track) => (
-            <li key={track.path}>{track.name}</li>
+            <li key={track.path}>
+              <strong>{track.title || track.name}</strong>
+              <br />
+              Artist: {track.artist || 'Unknown Artist'}
+              <br />
+              Album: {track.album || 'Album: —'}
+              <br />
+              Duration:{' '}
+              {track.duration
+                ? `${Math.floor(track.duration / 60)}:${Math.floor(track.duration % 60)
+                    .toString()
+                    .padStart(2, '0')}`
+                : '--:--'}
+              <br />
+              <br />
+            </li>
           ))}
         </ul>
       )}
