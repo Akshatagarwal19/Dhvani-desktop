@@ -3,6 +3,7 @@ import { readdir } from 'fs/promises'
 import { extname, join } from 'path'
 import { electronApp, optimizer } from '@electron-toolkit/utils'
 import { parseFile } from 'music-metadata'
+import { MusicFile } from 'music-tag-native'
 
 const SUPPORTED_EXTENSIONS = [
   '.mp3',
@@ -89,6 +90,29 @@ app.whenReady().then(() => {
 
     return tracks
   })
+
+  ipcMain.handle(
+    'library:saveMetadata',
+    async (
+      _,
+      data: {
+        path: string
+        title: string
+        artist: string
+        album: string
+      }
+    ) => {
+      const musicFile = await MusicFile.load(data.path)
+
+      musicFile.title = data.title
+      musicFile.artist = data.artist
+      musicFile.album = data.album
+
+      await musicFile.save()
+
+      return true
+    }
+  )
   createWindow()
 
   app.on('activate', () => {

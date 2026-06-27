@@ -5,17 +5,15 @@ declare global {
     electron: ElectronAPI
     api: {
       selectFolder: () => Promise<string | null>
-      scanMusicFolder: (folderPath: string) => Promise<
-        {
-          name: string
-          path: string
-          extension: string
-          title?: string
-          artist?: string
-          album?: string
-          duration?: number
-        }[]
-      >
+
+      scanMusicFolder: (folderPath: string) => Promise<any[]>
+
+      saveMetadata: (data: {
+        path: string
+        title: string
+        artist: string
+        album: string
+      }) => Promise<boolean>
     }
   }
 }

@@ -6,7 +6,14 @@ const api = {
   selectFolder: () => ipcRenderer.invoke('dialog:selectFolder'),
 
   scanMusicFolder: (folderPath: string) =>
-    ipcRenderer.invoke('library:scanMusicFolder', folderPath)
+    ipcRenderer.invoke('library:scanMusicFolder', folderPath),
+
+  saveMetadata: (data: {
+    path: string
+    title: string
+    artist: string
+    album: string
+  }) => ipcRenderer.invoke('library:saveMetadata', data)
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
