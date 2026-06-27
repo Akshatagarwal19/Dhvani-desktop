@@ -1,10 +1,12 @@
+import MainLayout from "./layouts/MainLayout";
+import LibraryPage from "./pages/LibraryPage";
+
 function App() {
   return (
-    <div>
-      <h1>Dhvani</h1>
-      <p>Desktop Music Library Manager</p>
-    </div>
-  )
+    <MainLayout>
+      <LibraryPage />
+    </MainLayout>
+  );
 }
 
-export default App
+export default App;
