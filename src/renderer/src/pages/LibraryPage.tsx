@@ -8,6 +8,7 @@ function LibraryPage() {
   const [editedTitle, setEditedTitle] = useState('')
   const [editedArtist, setEditedArtist] = useState('')
   const [editedAlbum, setEditedAlbum] = useState('')
+  const [duplicates, setDuplicates] = useState<Track[][]>([])
 
   async function handleSelectFolder() {
     const folder = await window.api.selectFolder()
@@ -36,6 +37,23 @@ function LibraryPage() {
     if (success) {
       alert('Metadata saved successfully!')
     }
+  }
+  function handleFindDuplicates() {
+    const duplicateMap = new Map<string, Track[]>()
+
+    tracks.forEach((track) => {
+      const key = `${(track.title ?? '').toLowerCase().trim()}|${(track.artist ?? '').toLowerCase().trim()}|${Math.round(track.duration ?? 0)}`
+
+      if (!duplicateMap.has(key)) {
+        duplicateMap.set(key, [])
+      }
+
+      duplicateMap.get(key)!.push(track)
+    })
+
+    const duplicateGroups = Array.from(duplicateMap.values()).filter((group) => group.length > 1)
+
+    setDuplicates(duplicateGroups)
   }
   return (
     <div>
@@ -119,6 +137,33 @@ function LibraryPage() {
         <p>Select a track.</p>
       )}
       <button onClick={handleSaveMetadata}>Save Metadata</button>
+      <button onClick={handleFindDuplicates}>Find Duplicates</button>
+      <h2>Duplicate Groups ({duplicates.length})</h2>
+
+{duplicates.length === 0 ? (
+  <p>No duplicates found.</p>
+) : (
+  duplicates.map((group, index) => (
+    <div
+      key={index}
+      style={{
+        border: '1px solid gray',
+        marginBottom: '12px',
+        padding: '10px'
+      }}
+    >
+      <strong>Group {index + 1}</strong>
+
+      <ul>
+        {group.map((track) => (
+          <li key={track.path}>
+            {track.title || track.name}
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))
+)}
     </div>
   )
 }

@@ -342,3 +342,129 @@ Read embedded metadata from supported audio files and display meaningful music i
 ## Next Sprint
 
 Focus on completing metadata support by expanding available fields and preparing the application for metadata editing.
+# Sprint 5 – Metadata Editor
+
+**Date:** 28 June 2026
+
+## Sprint Goal
+
+Allow users to edit and save metadata for individual music tracks.
+
+---
+
+## Features Implemented
+
+* Added track selection.
+* Displayed editable metadata fields.
+* Integrated `music-tag-native` for writing metadata.
+* Implemented IPC communication for saving metadata.
+* Updated Title, Artist, and Album tags.
+* Successfully wrote metadata changes back to the original music files.
+
+---
+
+## Design Decisions
+
+* Continued keeping the project architecture simple.
+* Delayed introducing shared types and additional components until they are genuinely needed.
+* Focused only on Title, Artist, and Album for Version 1.
+
+---
+
+## Lessons Learned
+
+* `music-tag-native` provides a clean API through the `MusicFile` class.
+* Separating the implementation into Main Process → Preload → Renderer made debugging straightforward.
+* Verifying changes in external applications confirmed that metadata was actually written to disk.
+
+---
+
+## Milestone
+
+Dhvani is now capable of both reading and writing music metadata.
+
+This marks the transition from a metadata viewer to a functional music library editor.
+
+---
+
+## Next Sprint
+
+Duplicate Detection
+
+* Identify duplicate songs.
+* Group potential duplicates.
+* Display duplicate candidates without modifying any files.
+
+# Sprint 6 – Duplicate Detection
+
+**Date:** 29 June 2026
+
+## Sprint Goal
+
+Implement duplicate song detection to help identify multiple copies of the same track within the user's music library.
+
+---
+
+## Features Implemented
+
+* Added "Find Duplicates" functionality.
+* Implemented duplicate detection using:
+
+  * Track metadata (Title + Artist)
+  * Track duration
+* Grouped matching tracks together for display.
+* Displayed duplicate groups inside the application.
+
+---
+
+## Design Decisions
+
+* Chose metadata + duration as the primary duplicate detection strategy for Version 1.
+* Decided not to expose multiple detection modes (Filename, Metadata, Metadata + Duration) in the UI.
+* Kept the implementation inside `LibraryPage.tsx` to avoid unnecessary abstraction during Version 1 development.
+
+---
+
+## Lessons Learned
+
+* Metadata is significantly more reliable than filenames because filenames may have been edited manually over time.
+* Using a `Map` makes duplicate grouping straightforward and efficient.
+* Building the duplicate detection engine first allows the UI to evolve independently.
+
+---
+
+## Product Decisions
+
+Version 1 will prioritize simplicity.
+
+Users will click a single **Find Duplicates** button without needing to choose an algorithm.
+
+Advanced detection methods and configuration options are postponed to Version 2.
+
+---
+
+## Current Version 1 Progress
+
+* ✅ Electron Foundation
+* ✅ Folder Selection
+* ✅ Library Scan
+* ✅ Metadata Reader
+* ✅ Metadata Editor
+* ✅ Duplicate Detection Engine
+* ⏳ UI/UX Polish
+* ⏳ Music Player
+
+---
+
+## Next Sprint
+
+Sprint 7 – UI/UX Polish
+
+Focus Areas:
+
+* Improve overall application layout.
+* Replace the temporary development UI.
+* Create a cleaner library view.
+* Improve spacing, typography and colors.
+* Prepare the interface for the integrated music player.
+* Make Dhvani feel like a polished desktop application while preserving its lightweight nature.
