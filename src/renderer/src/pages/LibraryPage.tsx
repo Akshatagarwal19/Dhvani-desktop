@@ -56,13 +56,14 @@ function LibraryPage() {
     setDuplicates(duplicateGroups)
   }
   return (
-    <div>
+    <div className="library-page">
       <h1>Library</h1>
 
-      <button onClick={handleSelectFolder}>Select Music Folder</button>
+      <div className="library-actions">
+        <button onClick={handleSelectFolder}>Select Music Folder</button>
 
-      <br />
-      <br />
+        <button onClick={handleFindDuplicates}>Find Duplicates</button>
+      </div>
 
       {selectedFolder ? (
         <p>
@@ -73,97 +74,110 @@ function LibraryPage() {
       ) : (
         <p>No music folder selected.</p>
       )}
-      <h2>Tracks ({tracks.length})</h2>
 
-      {tracks.length === 0 ? (
-        <p>No supported audio files found.</p>
-      ) : (
-        <ul>
-          {tracks.map((track) => (
-            <li
-              key={track.path}
-              onClick={() => {
-                setSelectedTrack(track)
+      <div className="library-content">
+        {/* ===================== TRACK LIST ===================== */}
 
-                setEditedTitle(track.title || track.name)
-                setEditedArtist(track.artist || '')
-                setEditedAlbum(track.album || '')
-              }}
-              style={{ cursor: 'pointer' }}
-            >
-              <strong>{track.title || track.name}</strong>
-              <br />
-              Artist: {track.artist || 'Unknown Artist'}
-              <br />
-              Album: {track.album || 'Album: —'}
-              <br />
-              Duration:{' '}
-              {track.duration
-                ? `${Math.floor(track.duration / 60)}:${Math.floor(track.duration % 60)
-                    .toString()
-                    .padStart(2, '0')}`
-                : '--:--'}
-              <br />
-              <br />
-            </li>
-          ))}
-        </ul>
-      )}
-      <hr />
+        <div className="track-list">
+          <h2>Tracks ({tracks.length})</h2>
 
-      <h2>Selected Track</h2>
+          {tracks.length === 0 ? (
+            <p>No supported audio files found.</p>
+          ) : (
+            <ul>
+              {tracks.map((track) => (
+                <li
+                  key={track.path}
+                  onClick={() => {
+                    setSelectedTrack(track)
 
-      {selectedTrack ? (
-        <div>
-          <p>
-            <strong>Title</strong>
-            <br />
-            <input value={editedTitle} onChange={(e) => setEditedTitle(e.target.value)} />
-          </p>
-
-          <p>
-            <strong>Artist</strong>
-            <br />
-            <input value={editedArtist} onChange={(e) => setEditedArtist(e.target.value)} />
-          </p>
-
-          <p>
-            <strong>Album</strong>
-            <br />
-            <input value={editedAlbum} onChange={(e) => setEditedAlbum(e.target.value)} />
-          </p>
+                    setEditedTitle(track.title || track.name)
+                    setEditedArtist(track.artist || '')
+                    setEditedAlbum(track.album || '')
+                  }}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <strong>{track.title || track.name}</strong>
+                  <br />
+                  Artist: {track.artist || 'Unknown Artist'}
+                  <br />
+                  Album: {track.album || '—'}
+                  <br />
+                  Duration:{' '}
+                  {track.duration
+                    ? `${Math.floor(track.duration / 60)}:${Math.floor(track.duration % 60)
+                        .toString()
+                        .padStart(2, '0')}`
+                    : '--:--'}
+                  <br />
+                  <br />
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
-      ) : (
-        <p>Select a track.</p>
-      )}
-      <button onClick={handleSaveMetadata}>Save Metadata</button>
-      <button onClick={handleFindDuplicates}>Find Duplicates</button>
-      <h2>Duplicate Groups ({duplicates.length})</h2>
 
-{duplicates.length === 0 ? (
-  <p>No duplicates found.</p>
-) : (
-  duplicates.map((group, index) => (
-    <div
-      key={index}
-      style={{
-        border: '1px solid gray',
-        marginBottom: '12px',
-        padding: '10px'
-      }}
-    >
-      <strong>Group {index + 1}</strong>
+        {/* ===================== TRACK DETAILS ===================== */}
 
-      <ul>
-        {group.map((track) => (
-          <li key={track.path}>
-            {track.title || track.name}
-          </li>
-        ))}
-      </ul>
-    </div>
-  ))
-)}
+        <div className="track-details">
+          <h2>Selected Track</h2>
+
+          {selectedTrack ? (
+            <div>
+              <p>
+                <strong>Title</strong>
+                <br />
+                <input value={editedTitle} onChange={(e) => setEditedTitle(e.target.value)} />
+              </p>
+
+              <p>
+                <strong>Artist</strong>
+                <br />
+                <input value={editedArtist} onChange={(e) => setEditedArtist(e.target.value)} />
+              </p>
+
+              <p>
+                <strong>Album</strong>
+                <br />
+                <input value={editedAlbum} onChange={(e) => setEditedAlbum(e.target.value)} />
+              </p>
+
+              <button onClick={handleSaveMetadata}>Save Metadata</button>
+            </div>
+          ) : (
+            <p>Select a track.</p>
+          )}
+        </div>
+      </div>
+
+      {/* ===================== DUPLICATES ===================== */}
+
+      <div className="duplicate-section">
+        <h2>Duplicate Groups ({duplicates.length})</h2>
+
+        {duplicates.length === 0 ? (
+          <p>No duplicates found.</p>
+        ) : (
+          duplicates.map((group, index) => (
+            <div
+              key={index}
+              style={{
+                border: '1px solid gray',
+                marginBottom: '12px',
+                padding: '10px'
+              }}
+            >
+              <strong>Group {index + 1}</strong>
+
+              <ul>
+                {group.map((track) => (
+                  <li key={track.path}>{track.title || track.name}</li>
+                ))}
+              </ul>
+            </div>
+          ))
+        )}
+      </div>
     </div>
   )
 }

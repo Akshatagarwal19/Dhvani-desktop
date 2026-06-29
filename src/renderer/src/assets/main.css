@@ -1,38 +1,14 @@
-/* Reset */
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Root */
-
-html,
-body,
-#root {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/* Main Layout */
+/* =========================
+   APP LAYOUT
+========================= */
 
 .app-layout {
   display: flex;
-  height: 100%;
+  height: 100vh;
+  background: #f5f6f8;
+  color: #222;
+  font-family: "Segoe UI", sans-serif;
 }
-
-/* Sidebar */
-
-aside {
-  width: 240px;
-  padding: 20px;
-  border-right: 1px solid #ddd;
-}
-
-/* Header + Page */
 
 .content-wrapper {
   flex: 1;
@@ -40,13 +16,174 @@ aside {
   flex-direction: column;
 }
 
+/* =========================
+   HEADER
+========================= */
+
 header {
-  height: 70px;
-  padding: 20px;
+  background: white;
   border-bottom: 1px solid #ddd;
+  padding: 18px 24px;
 }
+
+header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+/* =========================
+   PAGE
+========================= */
 
 .page-content {
   flex: 1;
-  padding: 20px;
+  overflow: auto;
+  padding: 24px;
+}
+
+/* =========================
+   LIBRARY
+========================= */
+
+.library-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.library-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.library-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.track-list,
+.track-details,
+.duplicate-section {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 18px;
+}
+
+/* =========================
+   TRACK LIST
+========================= */
+
+.track-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.track-list li {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.track-list li:last-child {
+  border-bottom: none;
+}
+
+.track-list li:hover {
+  background: #f3f7ff;
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+/* =========================
+   DUPLICATES
+========================= */
+
+.duplicate-section ul {
+  margin-top: 10px;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+  width: 240px;
+  background: #1f2937;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 16px;
+}
+
+.logo {
+  margin: 0 0 30px;
+  font-size: 26px;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nav-button {
+  background: transparent;
+  border: none;
+  color: white;
+  text-align: left;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.nav-button:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header span {
+  color: #666;
+  font-size: 14px;
 }
