@@ -1,34 +1,98 @@
-# npm
+# Dhvani
 
-An Electron application with React and TypeScript
+**Dhvani** is a desktop Music Library Manager built with **Electron**, **React**, and **TypeScript**. It helps you organize your local music collection by scanning folders, editing metadata, detecting duplicate songs, and playing audio files.
 
-## Recommended IDE Setup
+---
 
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+## ✨ Features
 
-## Project Setup
+- ✅ Scan local music folders
+- ✅ Read song metadata
+- ✅ Edit metadata
+- ✅ Save metadata
+- ✅ Play songs
+- ✅ Detect duplicate songs
+- ✅ Move duplicate files to the Windows Recycle Bin
 
-### Install
+---
+
+## 🛠️ Tech Stack
+
+- Electron
+- React
+- TypeScript
+- Electron Builder
+- music-metadata
+- music-tag-native
+
+---
+
+## 📸 Screenshots
+
+> Screenshots will be added later.
+
+---
+
+## 🚀 Installation
+
+### Download
+
+Download the latest installer from the **GitHub Releases** page.
+
+---
+
+## 💻 Development
+
+Install dependencies:
 
 ```bash
-$ npm install
+npm install
 ```
 
-### Development
+Start the development server:
 
 ```bash
-$ npm run dev
+npm run dev
 ```
 
-### Build
+---
+
+## 📦 Build
+
+Build the Windows application:
 
 ```bash
-# For windows
-$ npm run build:win
-
-# For macOS
-$ npm run build:mac
-
-# For Linux
-$ npm run build:linux
+npm run build:win
 ```
+
+---
+
+## 🗺️ Roadmap
+
+### Version 1
+
+- Music Library
+- Metadata Editing
+- Duplicate Detection
+- Audio Playback
+
+### Version 2
+
+- Better Duplicate Matching
+- Album Art
+- Search
+- Playlists
+- Batch Metadata Editing
+- Sorting & Filters
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+## 👨‍💻 Author
+
+**Akshat Agarwal**
