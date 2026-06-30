@@ -4,6 +4,7 @@ import { extname, join } from 'path'
 import { electronApp, optimizer } from '@electron-toolkit/utils'
 import { parseFile } from 'music-metadata'
 import { MusicFile } from 'music-tag-native'
+import { readFile } from 'fs/promises'
 
 const SUPPORTED_EXTENSIONS = [
   '.mp3',
@@ -47,6 +48,11 @@ app.whenReady().then(() => {
 
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
+  })
+  ipcMain.handle('player:readAudioFile', async (_, filePath: string) => {
+    const buffer = await readFile(filePath)
+
+    return buffer
   })
 
   ipcMain.handle('dialog:selectFolder', async () => {

@@ -1,5 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import { pathToFileURL } from 'node:url'
 
 // Custom APIs for renderer
 const api = {
@@ -13,7 +14,12 @@ const api = {
     title: string
     artist: string
     album: string
-  }) => ipcRenderer.invoke('library:saveMetadata', data)
+  }) => ipcRenderer.invoke('library:saveMetadata', data),
+
+  readAudioFile: (filePath: string) =>
+  ipcRenderer.invoke('player:readAudioFile', filePath),
+
+  getAudioUrl: (filePath: string) => pathToFileURL(filePath).href
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

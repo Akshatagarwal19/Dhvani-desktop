@@ -7,6 +7,8 @@ declare global {
       selectFolder: () => Promise<string | null>
 
       scanMusicFolder: (folderPath: string) => Promise<any[]>
+      getAudioUrl: (filePath: string) => string
+      readAudioFile: (filePath: string) => Promise<Uint8Array>
 
       saveMetadata: (data: {
         path: string

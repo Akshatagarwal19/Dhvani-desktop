@@ -510,3 +510,74 @@ Current Version 1 Progress
 ⏳ Sprint 8  Music Player
 ⏳ Sprint 9  Duplicate Management
 ⏳ Sprint 10 Build, Testing & Release
+
+Development Journal
+Sprint 8 – Basic Music Player
+
+Date: 30 June 2026
+
+Sprint Goal
+
+Implement a lightweight music player that allows users to preview songs while managing their music library.
+
+Features Implemented
+Added music playback support.
+Implemented Play, Pause and Stop controls.
+Added playback status indicator.
+Displayed currently selected track for playback.
+Automatically reset playback state when audio finishes.
+Prevented previous track from continuing when a different track is selected.
+Disabled playback controls when no track is selected.
+Technical Work
+Used the native HTML Audio API for playback.
+Read local audio files through Electron IPC.
+Converted audio data into browser-compatible Blob objects.
+Updated Content Security Policy (CSP) to allow media playback.
+Successfully played local music files inside Electron.
+Challenges Faced
+
+During implementation we encountered several Electron-specific issues:
+
+Direct Windows file paths could not be loaded by the renderer.
+Browser security blocked access to local media files.
+Content Security Policy prevented playback of Blob URLs.
+Electron IPC required transferring binary audio data from the main process to the renderer.
+
+Each issue was investigated individually until playback was successfully achieved.
+
+Known Issues
+Minor TypeScript typing warning while creating a Blob from the IPC-returned Uint8Array.
+This does not affect runtime functionality.
+Planned to be resolved during Sprint 10 (Final Polish).
+Design Decisions
+Chose the native HTML Audio API instead of introducing additional player libraries.
+Kept the player intentionally lightweight.
+Deferred advanced playback features (seek bar, playlist queue, repeat, shuffle, equalizer) to future versions.
+Lessons Learned
+Electron applications require different handling for local media than standard web applications.
+Security mechanisms such as CSP and IPC architecture are important considerations when working with local files.
+A simple implementation is often sufficient for Version 1 when the application's primary purpose is library management rather than media playback.
+Current Version 1 Progress
+✅ Sprint 1  Electron Foundation
+✅ Sprint 2  Folder Selection
+✅ Sprint 3  Library Scanner
+✅ Sprint 4  Metadata Reader
+✅ Sprint 5  Metadata Editor
+✅ Sprint 6  Duplicate Detection
+✅ Sprint 7  UI Foundation
+✅ Sprint 8  Basic Music Player
+
+⏳ Sprint 9  Duplicate Management
+⏳ Sprint 10 Final Polish, Packaging & Testing
+Version 1 Status
+
+At the end of Sprint 8, Dhvani can:
+
+✅ Scan music folders.
+✅ Read song metadata.
+✅ Edit and save metadata.
+✅ Detect duplicate songs.
+✅ Play local audio files.
+✅ Present the library through a desktop interface.
+
+Version 1 has now reached the stage where all major user-facing features exist. The remaining work focuses on completing the duplicate management workflow and polishing the overall user experience before release.

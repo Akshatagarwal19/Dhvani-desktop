@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Track } from '../types/Track.ts'
 
 function LibraryPage() {
@@ -9,7 +9,14 @@ function LibraryPage() {
   const [editedArtist, setEditedArtist] = useState('')
   const [editedAlbum, setEditedAlbum] = useState('')
   const [duplicates, setDuplicates] = useState<Track[][]>([])
+  const [audio] = useState(new Audio())
+  const [isPlaying, setIsPlaying] = useState(false)
 
+  useEffect(() => {
+    audio.onended = () => {
+      setIsPlaying(false)
+    }
+  }, [audio])
   async function handleSelectFolder() {
     const folder = await window.api.selectFolder()
 
@@ -55,6 +62,42 @@ function LibraryPage() {
 
     setDuplicates(duplicateGroups)
   }
+  async function handlePlayTrack() {
+    if (!selectedTrack) return
+
+    try {
+      const bytes = await window.api.readAudioFile(selectedTrack.path)
+
+      const arrayBuffer = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength)
+
+      const blob = new Blob([arrayBuffer], {
+        type: 'audio/mpeg'
+      })
+
+      const url = URL.createObjectURL(blob)
+
+      audio.src = url
+
+      await audio.play()
+
+      setIsPlaying(true)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  function handlePauseTrack() {
+    audio.pause()
+
+    setIsPlaying(false)
+  }
+  function handleStopTrack() {
+    audio.pause()
+
+    audio.currentTime = 0
+
+    setIsPlaying(false)
+  }
+
   return (
     <div className="library-page">
       <h1>Library</h1>
@@ -89,6 +132,10 @@ function LibraryPage() {
                 <li
                   key={track.path}
                   onClick={() => {
+                    audio.pause()
+                    audio.currentTime = 0
+                    setIsPlaying(false)
+                    
                     setSelectedTrack(track)
 
                     setEditedTitle(track.title || track.name)
@@ -143,6 +190,26 @@ function LibraryPage() {
               </p>
 
               <button onClick={handleSaveMetadata}>Save Metadata</button>
+              <div style={{ marginTop: '20px' }}>
+                <button onClick={handlePlayTrack} disabled={!selectedTrack}>
+                  ▶ Play
+                </button>
+
+                <button onClick={handlePauseTrack} disabled={!selectedTrack}>
+                  ⏸ Pause
+                </button>
+
+                <button onClick={handleStopTrack} disabled={!selectedTrack}>
+                  ⏹ Stop
+                </button>
+              </div>
+              <p>
+                <strong>Status:</strong> {isPlaying ? 'Playing' : 'Stopped'}
+              </p>
+              <p>
+                <strong>Track:</strong>{' '}
+                {selectedTrack ? selectedTrack.title || selectedTrack.name : 'None'}
+              </p>
             </div>
           ) : (
             <p>Select a track.</p>
