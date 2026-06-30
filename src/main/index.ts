@@ -6,6 +6,7 @@ import { parseFile } from 'music-metadata'
 import { MusicFile } from 'music-tag-native'
 import { readFile } from 'fs/promises'
 
+
 const SUPPORTED_EXTENSIONS = [
   '.mp3',
   '.flac',
@@ -48,6 +49,17 @@ app.whenReady().then(() => {
 
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
+  })
+  ipcMain.handle('library:moveToTrash', async (_, filePath: string) => {
+    try {
+      await shell.trashItem(filePath)
+
+      return true
+    } catch (error) {
+      console.error(error)
+
+      return false
+    }
   })
   ipcMain.handle('player:readAudioFile', async (_, filePath: string) => {
     const buffer = await readFile(filePath)

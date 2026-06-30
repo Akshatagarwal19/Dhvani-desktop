@@ -20,16 +20,11 @@ function LibraryPage() {
   async function handleSelectFolder() {
     const folder = await window.api.selectFolder()
 
-    if (folder) {
-      setSelectedFolder(folder)
+    if (!folder) return
 
-      const scannedTracks = await window.api.scanMusicFolder(folder)
+    setSelectedFolder(folder)
 
-      setTracks(scannedTracks)
-
-      console.log(scannedTracks)
-      console.log(scannedTracks)
-    }
+    await loadLibrary(folder)
   }
   async function handleSaveMetadata() {
     if (!selectedTrack) return
@@ -45,10 +40,10 @@ function LibraryPage() {
       alert('Metadata saved successfully!')
     }
   }
-  function handleFindDuplicates() {
+  function handleFindDuplicates(trackList: Track[] = tracks) {
     const duplicateMap = new Map<string, Track[]>()
 
-    tracks.forEach((track) => {
+    trackList.forEach((track) => {
       const key = `${(track.title ?? '').toLowerCase().trim()}|${(track.artist ?? '').toLowerCase().trim()}|${Math.round(track.duration ?? 0)}`
 
       if (!duplicateMap.has(key)) {
@@ -97,6 +92,39 @@ function LibraryPage() {
 
     setIsPlaying(false)
   }
+  async function handleDeleteDuplicate(track: Track) {
+    const confirmed = window.confirm(`Move "${track.title || track.name}" to the Recycle Bin?`)
+
+    if (!confirmed) return
+
+    const success = await window.api.moveToTrash(track.path)
+
+    if (!success) {
+      alert('Unable to move file to Recycle Bin.')
+      return
+    }
+
+    alert('File moved to Recycle Bin.')
+    if (selectedFolder) {
+      await loadLibrary(selectedFolder)
+    }
+
+    if (selectedTrack?.path === track.path) {
+      handleStopTrack()
+
+      setSelectedTrack(null)
+
+      setEditedTitle('')
+      setEditedArtist('')
+      setEditedAlbum('')
+    }
+  }
+  async function loadLibrary(folder: string) {
+    const scannedTracks = await window.api.scanMusicFolder(folder)
+
+    setTracks(scannedTracks)
+    handleFindDuplicates(scannedTracks)
+  }
 
   return (
     <div className="library-page">
@@ -105,7 +133,9 @@ function LibraryPage() {
       <div className="library-actions">
         <button onClick={handleSelectFolder}>Select Music Folder</button>
 
-        <button onClick={handleFindDuplicates}>Find Duplicates</button>
+        <button onClick={() => handleFindDuplicates()}>
+  Find Duplicates
+</button>
       </div>
 
       {selectedFolder ? (
@@ -135,7 +165,7 @@ function LibraryPage() {
                     audio.pause()
                     audio.currentTime = 0
                     setIsPlaying(false)
-                    
+
                     setSelectedTrack(track)
 
                     setEditedTitle(track.title || track.name)
@@ -238,7 +268,16 @@ function LibraryPage() {
 
               <ul>
                 {group.map((track) => (
-                  <li key={track.path}>{track.title || track.name}</li>
+                  <li key={track.path}>
+                    {track.title || track.name}
+
+                    <button
+                      style={{ marginLeft: '10px' }}
+                      onClick={() => handleDeleteDuplicate(track)}
+                    >
+                      Move to Recycle Bin
+                    </button>
+                  </li>
                 ))}
               </ul>
             </div>

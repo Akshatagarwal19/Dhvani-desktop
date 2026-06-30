@@ -15,6 +15,8 @@ const api = {
     artist: string
     album: string
   }) => ipcRenderer.invoke('library:saveMetadata', data),
+  moveToTrash: (filePath: string) =>
+  ipcRenderer.invoke('library:moveToTrash', filePath),
 
   readAudioFile: (filePath: string) =>
   ipcRenderer.invoke('player:readAudioFile', filePath),

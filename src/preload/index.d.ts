@@ -9,6 +9,7 @@ declare global {
       scanMusicFolder: (folderPath: string) => Promise<any[]>
       getAudioUrl: (filePath: string) => string
       readAudioFile: (filePath: string) => Promise<Uint8Array>
+      moveToTrash: (filePath: string) => Promise<boolean>
 
       saveMetadata: (data: {
         path: string
