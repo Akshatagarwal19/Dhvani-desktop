@@ -20,6 +20,7 @@ function createWindow(): void {
   const mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
+    title: 'Dhvani',
     show: false,
     autoHideMenuBar: true,
     webPreferences: {

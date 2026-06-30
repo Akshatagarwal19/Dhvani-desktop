@@ -17,6 +17,12 @@ function LibraryPage() {
       setIsPlaying(false)
     }
   }, [audio])
+  async function loadLibrary(folder: string) {
+    const scannedTracks = await window.api.scanMusicFolder(folder)
+
+    setTracks(scannedTracks)
+    handleFindDuplicates(scannedTracks)
+  }
   async function handleSelectFolder() {
     const folder = await window.api.selectFolder()
 
@@ -38,6 +44,10 @@ function LibraryPage() {
 
     if (success) {
       alert('Metadata saved successfully!')
+
+      if (selectedFolder) {
+        await loadLibrary(selectedFolder)
+      }
     }
   }
   function handleFindDuplicates(trackList: Track[] = tracks) {
@@ -63,7 +73,9 @@ function LibraryPage() {
     try {
       const bytes = await window.api.readAudioFile(selectedTrack.path)
 
-      const arrayBuffer = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength)
+      const arrayBuffer = new ArrayBuffer(bytes.byteLength)
+
+      new Uint8Array(arrayBuffer).set(bytes)
 
       const blob = new Blob([arrayBuffer], {
         type: 'audio/mpeg'
@@ -89,6 +101,12 @@ function LibraryPage() {
     audio.pause()
 
     audio.currentTime = 0
+
+    if (audio.src.startsWith('blob:')) {
+      URL.revokeObjectURL(audio.src)
+    }
+
+    audio.src = ''
 
     setIsPlaying(false)
   }
@@ -119,12 +137,6 @@ function LibraryPage() {
       setEditedAlbum('')
     }
   }
-  async function loadLibrary(folder: string) {
-    const scannedTracks = await window.api.scanMusicFolder(folder)
-
-    setTracks(scannedTracks)
-    handleFindDuplicates(scannedTracks)
-  }
 
   return (
     <div className="library-page">
@@ -133,9 +145,7 @@ function LibraryPage() {
       <div className="library-actions">
         <button onClick={handleSelectFolder}>Select Music Folder</button>
 
-        <button onClick={() => handleFindDuplicates()}>
-  Find Duplicates
-</button>
+        <button onClick={() => handleFindDuplicates()}>Find Duplicates</button>
       </div>
 
       {selectedFolder ? (
@@ -219,7 +229,9 @@ function LibraryPage() {
                 <input value={editedAlbum} onChange={(e) => setEditedAlbum(e.target.value)} />
               </p>
 
-              <button onClick={handleSaveMetadata}>Save Metadata</button>
+              <button onClick={handleSaveMetadata} disabled={!selectedTrack}>
+                Save Metadata
+              </button>
               <div style={{ marginTop: '20px' }}>
                 <button onClick={handlePlayTrack} disabled={!selectedTrack}>
                   ▶ Play
@@ -264,11 +276,16 @@ function LibraryPage() {
                 padding: '10px'
               }}
             >
-              <strong>Group {index + 1}</strong>
+              <strong>Duplicate Group {index + 1}</strong>
+
+              <p>{group.length} songs found</p>
 
               <ul>
                 {group.map((track) => (
-                  <li key={track.path}>
+                  <li
+                    key={track.path}
+                    className={selectedTrack?.path === track.path ? 'selected-track' : ''}
+                  >
                     {track.title || track.name}
 
                     <button

@@ -581,3 +581,77 @@ At the end of Sprint 8, Dhvani can:
 ✅ Present the library through a desktop interface.
 
 Version 1 has now reached the stage where all major user-facing features exist. The remaining work focuses on completing the duplicate management workflow and polishing the overall user experience before release.
+
+Sprint 9 – Duplicate Management
+
+Date: 30 June 2026
+
+Sprint Goal
+
+Complete the duplicate management workflow by allowing users to safely remove duplicate songs from their music library.
+
+Features Implemented
+Duplicate Management
+Added "Move to Recycle Bin" functionality.
+Implemented confirmation dialog before moving files.
+Successfully integrated Electron's native Recycle Bin support.
+Verified duplicate files are moved safely instead of being permanently deleted.
+Library Refresh
+Introduced reusable loadLibrary() function.
+Automatically reloads the library after duplicate removal.
+Automatically refreshes duplicate groups after rescanning.
+Removed deleted songs from the interface without requiring a manual rescan.
+Duplicate Detection Improvements
+Updated duplicate detection to accept an optional track list.
+Eliminated state synchronization issues after library refresh.
+Improved consistency between the displayed library and duplicate groups.
+Design Decisions
+
+Version 1 intentionally focuses on safe duplicate management.
+
+Included:
+
+Safe deletion through Windows Recycle Bin.
+User confirmation before deletion.
+Automatic library refresh.
+
+Deferred to Version 2:
+
+Permanent delete.
+Batch deletion.
+Automatic best-copy selection.
+Advanced duplicate scoring.
+Acoustic fingerprint matching.
+Technical Improvements
+Added reusable library loading logic.
+Improved interaction between scanning and duplicate detection.
+Reduced duplicated code by centralizing library refresh.
+Lessons Learned
+Refreshing application state immediately after filesystem operations greatly improves user experience.
+Separating library loading from folder selection simplifies future maintenance.
+Safety should be prioritized when an application modifies user files.
+Current Version 1 Progress
+✅ Sprint 1  Electron Foundation
+✅ Sprint 2  Folder Selection
+✅ Sprint 3  Library Scanner
+✅ Sprint 4  Metadata Reader
+✅ Sprint 5  Metadata Editor
+✅ Sprint 6  Duplicate Detection
+✅ Sprint 7  UI Foundation
+✅ Sprint 8  Basic Music Player
+✅ Sprint 9  Duplicate Management
+
+⏳ Sprint 10 Final Polish, Testing & Release
+Version 1 Status
+
+Dhvani Version 1 now supports:
+
+✅ Music library scanning.
+✅ Metadata extraction.
+✅ Metadata editing and saving.
+✅ Duplicate song detection.
+✅ Safe duplicate removal using the Windows Recycle Bin.
+✅ Local music playback.
+✅ Desktop-based user interface.
+
+All core functional goals planned for Version 1 have now been implemented.

@@ -187,3 +187,7 @@ button:hover {
   color: #666;
   font-size: 14px;
 }
+.selected-track {
+  background: #dbeafe;
+  border-left: 4px solid #2563eb;
+}
