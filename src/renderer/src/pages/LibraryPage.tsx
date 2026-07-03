@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import type { Track } from '../types/Track.ts'
+import { useLibrary } from '../context/LibraryContext'
 
 function LibraryPage() {
-  const [selectedFolder, setSelectedFolder] = useState<string | null>(null)
-  const [tracks, setTracks] = useState<Track[]>([])
+  const { tracks, selectedFolder, setSelectedFolder, loadLibrary } = useLibrary()
+
   const [selectedTrack, setSelectedTrack] = useState<Track | null>(null)
   const [editedTitle, setEditedTitle] = useState('')
   const [editedArtist, setEditedArtist] = useState('')
   const [editedAlbum, setEditedAlbum] = useState('')
-  const [duplicates, setDuplicates] = useState<Track[][]>([])
   const [audio] = useState(new Audio())
   const [isPlaying, setIsPlaying] = useState(false)
 
@@ -17,12 +17,7 @@ function LibraryPage() {
       setIsPlaying(false)
     }
   }, [audio])
-  async function loadLibrary(folder: string) {
-    const scannedTracks = await window.api.scanMusicFolder(folder)
 
-    setTracks(scannedTracks)
-    handleFindDuplicates(scannedTracks)
-  }
   async function handleSelectFolder() {
     const folder = await window.api.selectFolder()
 
@@ -49,23 +44,6 @@ function LibraryPage() {
         await loadLibrary(selectedFolder)
       }
     }
-  }
-  function handleFindDuplicates(trackList: Track[] = tracks) {
-    const duplicateMap = new Map<string, Track[]>()
-
-    trackList.forEach((track) => {
-      const key = `${(track.title ?? '').toLowerCase().trim()}|${(track.artist ?? '').toLowerCase().trim()}|${Math.round(track.duration ?? 0)}`
-
-      if (!duplicateMap.has(key)) {
-        duplicateMap.set(key, [])
-      }
-
-      duplicateMap.get(key)!.push(track)
-    })
-
-    const duplicateGroups = Array.from(duplicateMap.values()).filter((group) => group.length > 1)
-
-    setDuplicates(duplicateGroups)
   }
   async function handlePlayTrack() {
     if (!selectedTrack) return
@@ -110,33 +88,6 @@ function LibraryPage() {
 
     setIsPlaying(false)
   }
-  async function handleDeleteDuplicate(track: Track) {
-    const confirmed = window.confirm(`Move "${track.title || track.name}" to the Recycle Bin?`)
-
-    if (!confirmed) return
-
-    const success = await window.api.moveToTrash(track.path)
-
-    if (!success) {
-      alert('Unable to move file to Recycle Bin.')
-      return
-    }
-
-    alert('File moved to Recycle Bin.')
-    if (selectedFolder) {
-      await loadLibrary(selectedFolder)
-    }
-
-    if (selectedTrack?.path === track.path) {
-      handleStopTrack()
-
-      setSelectedTrack(null)
-
-      setEditedTitle('')
-      setEditedArtist('')
-      setEditedAlbum('')
-    }
-  }
 
   return (
     <div className="library-page">
@@ -144,8 +95,6 @@ function LibraryPage() {
 
       <div className="library-actions">
         <button onClick={handleSelectFolder}>Select Music Folder</button>
-
-        <button onClick={() => handleFindDuplicates()}>Find Duplicates</button>
       </div>
 
       {selectedFolder ? (
@@ -257,49 +206,6 @@ function LibraryPage() {
             <p>Select a track.</p>
           )}
         </div>
-      </div>
-
-      {/* ===================== DUPLICATES ===================== */}
-
-      <div className="duplicate-section">
-        <h2>Duplicate Groups ({duplicates.length})</h2>
-
-        {duplicates.length === 0 ? (
-          <p>No duplicates found.</p>
-        ) : (
-          duplicates.map((group, index) => (
-            <div
-              key={index}
-              style={{
-                border: '1px solid gray',
-                marginBottom: '12px',
-                padding: '10px'
-              }}
-            >
-              <strong>Duplicate Group {index + 1}</strong>
-
-              <p>{group.length} songs found</p>
-
-              <ul>
-                {group.map((track) => (
-                  <li
-                    key={track.path}
-                    className={selectedTrack?.path === track.path ? 'selected-track' : ''}
-                  >
-                    {track.title || track.name}
-
-                    <button
-                      style={{ marginLeft: '10px' }}
-                      onClick={() => handleDeleteDuplicate(track)}
-                    >
-                      Move to Recycle Bin
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))
-        )}
       </div>
     </div>
   )

@@ -191,3 +191,32 @@ button:hover {
   background: #dbeafe;
   border-left: 4px solid #2563eb;
 }
+
+.nav-button {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 8px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: transparent;
+
+  color: inherit;
+
+  cursor: pointer;
+
+  text-align: left;
+
+  transition: 0.2s;
+}
+
+.nav-button:hover {
+  background: rgba(255,255,255,.08);
+}
+
+.nav-button.active {
+  background: #6c5ce7;
+  color: white;
+  font-weight: 600;
+}

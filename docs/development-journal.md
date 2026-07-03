@@ -743,3 +743,53 @@ Incremental feature development
 Regular testing after every sprint
 Version-controlled milestones
 Stable Version 1 release
+
+Version 2 - Sprint 1
+
+Title
+
+## Version 2 - Sprint 1
+
+Summary
+
+### Objectives
+- Introduce multi-page application architecture.
+- Begin separating Version 1 functionality into dedicated pages.
+- Introduce shared application state.
+
+### Completed
+
+#### Navigation & Layout
+- Dashboard is now the default landing page.
+- Added page navigation through the Sidebar.
+- Header now updates dynamically based on the active page.
+- Created placeholder Dashboard, Library, Duplicates and Settings pages.
+
+#### Shared State
+- Introduced LibraryContext.
+- Moved tracks into shared context.
+- Moved selectedFolder into shared context.
+- Moved duplicate groups into shared context.
+- Added shared library loading functionality.
+
+#### Duplicate Management Refactor
+- Extracted duplicate detection algorithm into utils/findDuplicates.ts.
+- Moved duplicate management UI from LibraryPage to DuplicatesPage.
+- LibraryPage now focuses only on:
+  - Folder selection
+  - Track list
+  - Metadata editing
+  - Audio playback
+
+#### Architecture Improvements
+- Reduced LibraryPage responsibilities significantly.
+- Improved separation of concerns.
+- Established the architectural foundation for Version 2.
+
+### Known Issues
+- Duplicate detection algorithm produces false positives on large real-world music libraries.
+- Duplicate list requires a manual "Find Duplicates" scan after library changes.
+- Android MTP devices cannot currently be scanned because they are not exposed as standard filesystem paths.
+
+### Notes
+A real-world music library (~300 tracks copied from an Android device) will now serve as the primary benchmark
