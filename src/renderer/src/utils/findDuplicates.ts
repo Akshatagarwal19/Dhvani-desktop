@@ -1,19 +1,35 @@
 import type { Track } from '../types/Track'
+import { compareTracks } from './compareTracks'
 
 export function findDuplicates(tracks: Track[]): Track[][] {
-  const duplicateMap = new Map<string, Track[]>()
+  const duplicateGroups: Track[][] = []
+  const visited = new Set<string>()
 
-  tracks.forEach((track) => {
-    const key = `${(track.title ?? '').toLowerCase().trim()}|${(track.artist ?? '').toLowerCase().trim()}|${Math.round(track.duration ?? 0)}`
+  for (let i = 0; i < tracks.length; i++) {
+    if (visited.has(tracks[i].path)) continue
 
-    if (!duplicateMap.has(key)) {
-      duplicateMap.set(key, [])
+    const group: Track[] = [tracks[i]]
+
+    for (let j = i + 1; j < tracks.length; j++) {
+      const result = compareTracks(tracks[i], tracks[j])
+
+      if (result.isDuplicate) {
+        group.push(tracks[j])
+        visited.add(tracks[j].path)
+
+        console.log('Duplicate Match')
+        console.log('Duplicate Match')
+        console.log(tracks[i].name)
+        console.log(tracks[j].name)
+        console.log(result)
+      }
     }
 
-    duplicateMap.get(key)!.push(track)
-  })
+    if (group.length > 1) {
+      duplicateGroups.push(group)
+      visited.add(tracks[i].path)
+    }
+  }
 
-  return Array.from(duplicateMap.values()).filter(
-    (group) => group.length > 1
-  )
+  return duplicateGroups
 }

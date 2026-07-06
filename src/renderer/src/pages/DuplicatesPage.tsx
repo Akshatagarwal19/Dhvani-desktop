@@ -1,10 +1,14 @@
 import { useLibrary } from '../context/LibraryContext'
 import { findDuplicates } from '../utils/findDuplicates'
 import type { Track } from '../types/Track'
+import { compareTracks } from '../utils/compareTracks'
 
 function DuplicatesPage() {
   const { tracks, duplicates, setDuplicates, refreshLibrary } = useLibrary()
   function handleFindDuplicates() {
+    if (tracks.length >= 2) {
+      console.log(compareTracks(tracks[0], tracks[1]))
+    }
     const duplicateGroups = findDuplicates(tracks)
 
     setDuplicates(duplicateGroups)

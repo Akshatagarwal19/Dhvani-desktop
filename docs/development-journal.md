@@ -793,3 +793,66 @@ Summary
 
 ### Notes
 A real-world music library (~300 tracks copied from an Android device) will now serve as the primary benchmark
+
+## Version 2 - Sprint 2
+
+### Theme
+Redesign the duplicate detection engine using a modular comparison-based architecture.
+
+### Objectives
+- Investigate weaknesses in the Version 1 duplicate detection algorithm.
+- Test against real-world music libraries.
+- Replace the key-based matching system.
+- Build reusable comparison utilities.
+
+### Completed
+
+#### Duplicate Detection Investigation
+- Benchmarked the duplicate engine using a real-world music library (~300 tracks).
+- Identified false positives caused by missing metadata.
+- Built a smaller benchmark playlist to validate duplicate detection.
+- Logged and analyzed duplicate matching behaviour.
+
+#### New Comparison Engine
+- Replaced the key-based duplicate detection architecture.
+- Introduced direct track-to-track comparison.
+- Added similarity-based comparison instead of strict equality.
+- Built a scoring system to evaluate duplicate confidence.
+
+#### New Utility Modules
+Created reusable utilities:
+
+- normalizeText.ts
+- normalizeFilename.ts
+- compareDuration.ts
+- compareTextSimilarity.ts
+- compareTracks.ts
+
+These utilities separate normalization, comparison and duplicate detection into independent modules.
+
+#### Refactoring
+- Rewrote findDuplicates.ts to use compareTracks().
+- Removed dependency on generated lookup keys.
+- Improved separation of concerns.
+
+### Benchmark Results
+
+Small benchmark playlist:
+- Successfully detects obvious duplicate copies.
+
+Large real-world library:
+- Eliminated most false positives found in Version 1.
+- Identified limitations caused by inconsistent metadata.
+- Determined that advanced duplicate matching is outside the scope of Version 2.
+
+### Decisions
+
+- Perfect duplicate detection is deferred to Version 3.
+- AI-assisted metadata matching will be explored in Version 3.
+- Version 2 will focus on practical music library management features rather than attempting to solve every duplicate scenario.
+
+### Lessons Learned
+
+Real-world music collections contain inconsistent metadata, multiple releases, remasters, live versions, video uploads and copied files.
+
+Accurate duplicate detection requires contextual understanding rather than simple string comparison. The new architecture provides a foundation for future improvements without requiring major refactoring.
