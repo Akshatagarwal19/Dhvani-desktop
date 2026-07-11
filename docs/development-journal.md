@@ -856,3 +856,175 @@ Large real-world library:
 Real-world music collections contain inconsistent metadata, multiple releases, remasters, live versions, video uploads and copied files.
 
 Accurate duplicate detection requires contextual understanding rather than simple string comparison. The new architecture provides a foundation for future improvements without requiring major refactoring.
+
+## Version 2 - Sprint 3
+
+### Theme
+Improve library exploration and usability by introducing search, sorting, filtering and interface improvements.
+
+### Objectives
+- Add library search.
+- Add track sorting.
+- Add metadata-based filters.
+- Improve the Library page interface.
+- Verify support for external storage devices.
+
+---
+
+## Completed
+
+### Search Engine
+
+Implemented a reusable search engine.
+
+Features:
+- Search by title.
+- Search by artist.
+- Search by album.
+- Search by filename (fallback).
+
+Created:
+
+- utils/searchTracks.ts
+
+Search now updates the displayed track list in real time.
+
+---
+
+### Sorting
+
+Implemented reusable sorting functionality.
+
+Supported sorting:
+
+- Title
+- Artist
+- Album
+- Duration
+
+Created:
+
+- utils/sortTracks.ts
+
+Sorting is fully separated from UI logic.
+
+---
+
+### Filtering
+
+Implemented reusable metadata filters.
+
+Supported filters:
+
+- All Tracks
+- Missing Title
+- Missing Artist
+- Missing Album
+- Duplicate Candidates
+
+Created:
+
+- utils/filterTracks.ts
+
+Duplicate filtering reuses the duplicate engine built during Sprint 2.
+
+---
+
+### Library Pipeline
+
+Refactored LibraryPage into a clear processing pipeline.
+
+tracks
+
+↓
+
+searchTracks()
+
+↓
+
+sortTracks()
+
+↓
+
+filterTracks()
+
+↓
+
+displayedTracks
+
+Each stage has a single responsibility and can be extended independently.
+
+---
+
+### Context Improvements
+
+Extended LibraryContext with shared UI state.
+
+Added:
+
+- searchQuery
+- sortOption
+- activeFilter
+
+This removes page-specific state and prepares the application for future pages.
+
+---
+
+### Library UI Improvements
+
+Improved the Library page by adding:
+
+- Search bar
+- Sort dropdown
+- Filter dropdown
+- Improved toolbar layout
+- Selected Library information card
+
+The interface now resembles a desktop music manager instead of a simple file viewer.
+
+---
+
+### External Device Support
+
+Verified support for removable storage devices.
+
+Confirmed working:
+
+- Internal HDD/SSD
+- USB Flash Drives
+- External HDD
+- External SSD
+- SD Cards
+
+Android devices connected using MTP remain outside the scope of Version 2 because they are not exposed as standard filesystem directories.
+
+---
+
+## Architecture Improvements
+
+Continued the Version 2 refactoring philosophy:
+
+- UI
+- Business Logic
+- Context
+- Utilities
+
+are now clearly separated.
+
+The Library page primarily coordinates application state while reusable logic lives inside utility modules.
+
+---
+
+## Lessons Learned
+
+Building reusable processing stages (Search → Sort → Filter) makes future features significantly easier to implement.
+
+Real-world testing with a personal music library exposed usability improvements that were not obvious during initial planning, leading to a more practical roadmap for Dhvani.
+
+---
+
+## Sprint Outcome
+
+The Library page has evolved from a basic folder scanner into a functional music library explorer capable of searching, sorting and filtering large collections efficiently.
+
+Sprint 4 will shift focus from library exploration to improving the playback experience and metadata editing workflow.

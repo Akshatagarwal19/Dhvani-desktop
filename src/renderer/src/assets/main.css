@@ -53,13 +53,47 @@ header h1 {
 
 .library-actions {
   display: flex;
-  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.library-search {
+  flex: 1;
+  min-width: 280px;
+}
+
+.library-search input {
+  width: 100%;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  font-size: 14px;
+  box-sizing: border-box;
 }
 
 .library-content {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 20px;
+}
+
+.library-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.library-controls select,
+.library-controls button {
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
 }
 
 .track-list,
@@ -170,7 +204,7 @@ button:hover {
 }
 
 .nav-button:hover {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 /* =========================
@@ -187,6 +221,7 @@ button:hover {
   color: #666;
   font-size: 14px;
 }
+
 .selected-track {
   background: #dbeafe;
   border-left: 4px solid #2563eb;
@@ -212,11 +247,34 @@ button:hover {
 }
 
 .nav-button:hover {
-  background: rgba(255,255,255,.08);
+  background: rgba(255, 255, 255, .08);
 }
 
 .nav-button.active {
   background: #6c5ce7;
   color: white;
   font-weight: 600;
+}
+.selected-folder {
+  margin-bottom: 20px;
+  padding: 16px;
+  border: 1px solid #333;
+  border-radius: 10px;
+}
+
+.selected-folder h3 {
+  margin: 0 0 10px;
+}
+
+.selected-folder-name {
+  font-weight: bold;
+  font-size: 18px;
+  margin: 0;
+}
+
+.selected-folder-path {
+  margin-top: 6px;
+  font-size: 13px;
+  opacity: 0.7;
+  word-break: break-all;
 }

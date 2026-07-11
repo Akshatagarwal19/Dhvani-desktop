@@ -1,9 +1,28 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import type { Track } from '../types/Track.ts'
 import { useLibrary } from '../context/LibraryContext'
+import { searchTracks } from '../utils/searchTracks'
+import { sortTracks } from '../utils/sortTracks'
+import type { SortOption } from '../types/SortOption.ts'
+import { filterTracks } from '../utils/filterTracks'
+import type { FilterOption } from '../types/FilterOption'
 
 function LibraryPage() {
-  const { tracks, selectedFolder, setSelectedFolder, loadLibrary } = useLibrary()
+  const {
+    tracks,
+    selectedFolder,
+    setSelectedFolder,
+    loadLibrary,
+    searchQuery,
+    setSearchQuery,
+    sortOption,
+    setSortOption,
+    duplicates,
+    activeFilter,
+    setActiveFilter
+  } = useLibrary()
+
+  console.log('Tracks:', tracks.length)
 
   const [selectedTrack, setSelectedTrack] = useState<Track | null>(null)
   const [editedTitle, setEditedTitle] = useState('')
@@ -12,11 +31,11 @@ function LibraryPage() {
   const [audio] = useState(new Audio())
   const [isPlaying, setIsPlaying] = useState(false)
 
-  useEffect(() => {
-    audio.onended = () => {
-      setIsPlaying(false)
-    }
-  }, [audio])
+  const searchedTracks = searchTracks(tracks, searchQuery)
+
+  const sortedTracks = sortTracks(searchedTracks, sortOption)
+
+  const displayedTracks = filterTracks(sortedTracks, activeFilter, duplicates)
 
   async function handleSelectFolder() {
     const folder = await window.api.selectFolder()
@@ -91,18 +110,52 @@ function LibraryPage() {
 
   return (
     <div className="library-page">
-      <h1>Library</h1>
-
       <div className="library-actions">
-        <button onClick={handleSelectFolder}>Select Music Folder</button>
+        <div className="library-search">
+          <input
+            type="text"
+            placeholder="Search library..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+
+        <div className="library-controls">
+          <select
+            aria-label="Sort"
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value as SortOption)}
+          >
+            <option value="title">Sort: Title</option>
+            <option value="artist">Sort: Artist</option>
+            <option value="album">Sort: Album</option>
+            <option value="duration">Sort: Duration</option>
+          </select>
+
+          <select
+            aria-label="Filter"
+            value={activeFilter}
+            onChange={(e) => setActiveFilter(e.target.value as FilterOption)}
+          >
+            <option value="all">All Tracks</option>
+            <option value="missing-title">Missing Title</option>
+            <option value="missing-artist">Missing Artist</option>
+            <option value="missing-album">Missing Album</option>
+            <option value="duplicates">Duplicate Candidates</option>
+          </select>
+
+          <button onClick={handleSelectFolder}>Select Music Folder</button>
+        </div>
       </div>
 
       {selectedFolder ? (
-        <p>
-          <strong>Selected Folder:</strong>
-          <br />
-          {selectedFolder}
-        </p>
+        <div className="selected-folder">
+          <h3>Selected Library</h3>
+
+          <p className="selected-folder-name">{selectedFolder.split('\\').pop()}</p>
+
+          <p className="selected-folder-path">{selectedFolder}</p>
+        </div>
       ) : (
         <p>No music folder selected.</p>
       )}
@@ -111,13 +164,13 @@ function LibraryPage() {
         {/* ===================== TRACK LIST ===================== */}
 
         <div className="track-list">
-          <h2>Tracks ({tracks.length})</h2>
+          <h2>Tracks ({displayedTracks.length})</h2>
 
           {tracks.length === 0 ? (
             <p>No supported audio files found.</p>
           ) : (
             <ul>
-              {tracks.map((track) => (
+              {displayedTracks.map((track) => (
                 <li
                   key={track.path}
                   onClick={() => {
