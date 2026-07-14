@@ -1028,3 +1028,144 @@ Real-world testing with a personal music library exposed usability improvements 
 The Library page has evolved from a basic folder scanner into a functional music library explorer capable of searching, sorting and filtering large collections efficiently.
 
 Sprint 4 will shift focus from library exploration to improving the playback experience and metadata editing workflow.
+# Version 2 - Sprint 4
+
+## Theme
+
+Transform the Dashboard from a static placeholder into a functional home page for Dhvani.
+
+---
+
+## Objectives
+
+- Build a meaningful Dashboard.
+- Display information about the currently loaded library.
+- Provide an overview of the music collection.
+- Improve the application's first impression.
+
+---
+
+## Completed
+
+### Dashboard Redesign
+
+Replaced the original placeholder dashboard with a functional home page.
+
+Added:
+
+- Current Library section
+- Library Overview cards
+- Library Status section
+- Quick Actions section
+
+The Dashboard now serves as the landing page of the application.
+
+---
+
+### Current Library
+
+The Dashboard now displays the currently loaded music library.
+
+Information shown:
+
+- Library name
+- Full folder path
+
+If no library is loaded, an appropriate message is displayed.
+
+---
+
+### Library Statistics
+
+Created:
+
+utils/calculateLibraryStats.ts
+
+Implemented reusable calculations for:
+
+- Total Songs
+- Total Artists
+- Total Albums
+- Duplicate Groups
+- Missing Artist Metadata
+- Missing Album Metadata
+- Total Library Duration
+
+All statistics are calculated from the current library without requiring additional state.
+
+---
+
+### Duration Formatting
+
+Added reusable helper:
+
+formatDuration()
+
+Displays library duration in a user-friendly format.
+
+Example:
+
+25h 4m
+
+instead of raw seconds.
+
+---
+
+### Dashboard Components
+
+Implemented responsive statistic cards.
+
+Current overview includes:
+
+- Songs
+- Artists
+- Albums
+- Duplicate Groups
+
+Added separate Library Status section displaying metadata completeness.
+
+---
+
+### UI Improvements
+
+Improved visual hierarchy by introducing:
+
+- Library information card
+- Statistics cards
+- Quick Action cards
+
+The Dashboard now feels like a proper desktop application's home screen instead of a placeholder page.
+
+---
+
+## Architecture Improvements
+
+Continued the Version 2 architecture philosophy.
+
+Business logic remains outside React components.
+
+Created reusable utility:
+
+calculateLibraryStats()
+
+DashboardPage is responsible only for presenting information.
+
+---
+
+## Lessons Learned
+
+Not every planned feature remains the best solution as a project evolves.
+
+The original Dashboard concept focused heavily on analytics.
+
+During development it became clear that Dhvani benefits more from a lightweight home page summarizing the currently loaded library rather than acting as an analytics dashboard.
+
+Updating the sprint goals to better match the application's evolution resulted in a cleaner and more practical design.
+
+---
+
+## Sprint Outcome
+
+The Dashboard now provides users with immediate context about their current music library while avoiding duplication of functionality already available on the Library and Duplicates pages.
+
+It serves as an effective home page for Dhvani Version 2.

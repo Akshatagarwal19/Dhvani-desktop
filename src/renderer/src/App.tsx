@@ -13,22 +13,23 @@ import { LibraryProvider } from './context/LibraryContext'
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>('dashboard')
 
-  const pages = {
-    dashboard: DashboardPage,
-    library: LibraryPage,
-    duplicates: DuplicatesPage,
-    settings: SettingsPage
-  }
+  
 
-  const CurrentPage = pages[currentPage]
-
-  return (
+return (
   <LibraryProvider>
     <MainLayout
       currentPage={currentPage}
       onNavigate={setCurrentPage}
     >
-      <CurrentPage />
+      {currentPage === 'dashboard' && (
+        <DashboardPage onNavigate={setCurrentPage} />
+      )}
+
+      {currentPage === 'library' && <LibraryPage />}
+
+      {currentPage === 'duplicates' && <DuplicatesPage />}
+
+      {currentPage === 'settings' && <SettingsPage />}
     </MainLayout>
   </LibraryProvider>
 )
