@@ -1,20 +1,12 @@
 import { app, shell, BrowserWindow, dialog, ipcMain } from 'electron'
-import { readdir } from 'fs/promises'
+import { readdir, stat } from 'fs/promises'
 import { extname, join } from 'path'
 import { electronApp, optimizer } from '@electron-toolkit/utils'
 import { parseFile } from 'music-metadata'
 import { MusicFile } from 'music-tag-native'
 import { readFile } from 'fs/promises'
 
-
-const SUPPORTED_EXTENSIONS = [
-  '.mp3',
-  '.flac',
-  '.wav',
-  '.m4a',
-  '.aac',
-  '.ogg'
-]
+const SUPPORTED_EXTENSIONS = ['.mp3', '.flac', '.wav', '.m4a', '.aac', '.ogg']
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -84,15 +76,14 @@ app.whenReady().then(() => {
     const entries = await readdir(folderPath)
 
     const musicFiles = entries
-      .filter((file) =>
-        SUPPORTED_EXTENSIONS.includes(extname(file).toLowerCase())
-      )
+      .filter((file) => SUPPORTED_EXTENSIONS.includes(extname(file).toLowerCase()))
       .sort((a, b) => a.localeCompare(b))
 
     const tracks = await Promise.all(
       musicFiles.map(async (file) => {
         const fullPath = join(folderPath, file)
         const metadata = await parseFile(fullPath)
+        const fileStats = await stat(fullPath)
 
         return {
           name: file,
@@ -102,7 +93,10 @@ app.whenReady().then(() => {
           title: metadata.common.title,
           artist: metadata.common.artist,
           album: metadata.common.album,
-          duration: metadata.format.duration
+          duration: metadata.format.duration,
+
+          bitrate: metadata.format.bitrate,
+          size: fileStats.size
         }
       })
     )

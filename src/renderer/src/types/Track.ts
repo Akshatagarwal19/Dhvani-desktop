@@ -7,4 +7,7 @@ export interface Track {
   artist?: string
   album?: string
   duration?: number
+
+  bitrate?: number
+  size?: number
 }

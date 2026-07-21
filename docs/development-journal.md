@@ -1169,3 +1169,167 @@ Updating the sprint goals to better match the application's evolution resulted i
 The Dashboard now provides users with immediate context about their current music library while avoiding duplication of functionality already available on the Library and Duplicates pages.
 
 It serves as an effective home page for Dhvani Version 2.
+----------
+Version 2 - Sprint 5 Complete
+
+Sprint Name: Duplicate Management Center
+
+Objective
+
+Transform the duplicate detection system from a simple scanner into a complete duplicate management workflow, allowing users to review, compare, select, and safely remove duplicate tracks from their music library.
+
+Features Implemented
+Duplicate Management Interface
+Created a dedicated Duplicates page.
+Displayed duplicate tracks grouped together for easier review.
+Added duplicate group count and track count per group.
+Track Information
+
+Each duplicate entry now displays:
+
+Title
+Artist
+Duration
+Bitrate
+File Size
+
+Added helper utilities:
+
+formatBitrate()
+formatFileSize()
+Intelligent Duplicate Selection
+
+Implemented:
+
+Individual checkbox selection
+Select Duplicates
+Automatically selects every duplicate while leaving the highest-quality copy unselected.
+Select None
+
+Selection is managed using:
+
+Set<string>
+
+for efficient lookup and updates.
+
+Recommended Track System
+
+Created reusable helper:
+
+getRecommendedTrack()
+
+Recommendation priority:
+
+Highest bitrate
+Largest file size (tie breaker)
+
+The recommended track is highlighted with:
+
+⭐ Recommended
+
+This helper is now reusable for future cleanup features.
+
+Duplicate Cleanup
+
+Implemented two cleanup workflows.
+
+Individual Cleanup
+
+Each duplicate row includes:
+
+Move to Recycle Bin
+
+which:
+
+asks for confirmation
+moves the selected file to the system Recycle Bin
+refreshes the music library
+rescans duplicate groups
+Bulk Cleanup
+
+Implemented:
+
+Delete Selected
+
+Workflow:
+
+confirmation dialog
+deletes every selected duplicate
+refreshes library once
+rescans duplicates once
+clears selection
+displays completion message
+
+This avoids repeated rescanning after every deleted file and greatly improves performance.
+
+User Feedback
+
+Added:
+
+Selected track counter
+
+Example:
+
+5 tracks selected
+
+Bulk delete button is automatically disabled when no tracks are selected.
+
+Major Debugging Session
+
+One of the biggest investigations of Version 2 occurred during this sprint.
+
+Duplicate detection initially worked correctly on small test folders but failed on a large personal music library.
+
+After tracing:
+
+metadata extraction
+scanner output
+filename normalization
+text similarity
+duplicate grouping
+scoring algorithm
+
+the root cause was identified:
+
+Many MP3 files contained no embedded metadata, causing the duplicate confidence score to never reach the original threshold.
+
+The duplicate threshold was adjusted to better support real-world music collections while maintaining acceptable accuracy.
+
+This debugging session significantly improved the reliability of duplicate detection across different libraries.
+
+Architecture Improvements
+
+Created reusable utility:
+
+src/utils/getRecommendedTrack.ts
+
+This removes duplicate recommendation logic from UI components and centralizes the decision process.
+
+Future features can now reuse the same recommendation logic without duplication.
+
+Sprint Outcome
+
+Sprint 5 successfully transformed duplicate detection into a practical duplicate management tool.
+
+Users can now:
+
+detect duplicates
+review duplicate groups
+compare file quality
+identify the recommended copy
+select duplicates intelligently
+delete individual duplicates
+bulk delete duplicates safely
+Sprint Status
+
+Status: ✅ Completed
+
+Looking Ahead
+
+Version 2 now includes:
+
+Music Library
+Dashboard
+Duplicate Management Center
+
+With Sprint 5 complete, Version 2 is now feature-complete and ready for final testing, polishing, bug fixing, and release preparation before beginning work on Version 3.

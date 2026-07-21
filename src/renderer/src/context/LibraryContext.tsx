@@ -42,6 +42,22 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
 
   async function loadLibrary(folder: string) {
     const scannedTracks = await window.api.scanMusicFolder(folder)
+    console.log(scannedTracks)
+    console.table(
+  scannedTracks
+    .filter(track =>
+      track.name.includes("A.R Rahman Maahi Ve Full Song")
+    )
+    .map(track => ({
+      name: track.name,
+      title: track.title,
+      artist: track.artist,
+      duration: track.duration,
+      bitrate: track.bitrate,
+      size: track.size,
+      path: track.path
+    }))
+)
 
     setTracks(scannedTracks)
 

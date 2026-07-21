@@ -22,15 +22,3 @@ export function normalizeFilename(filename: string): string {
       .replace(/-/g, ' ')
   )
 }
-
-console.log(
-  normalizeFilename(
-    "02 - Ram Naam Ke Sabun Se..Narayan mil jayega ＊Pujya Prembhushanji Maharaj ＊Bhajan ＊ - Copy (2).mp3"
-  )
-)
-
-console.log(
-  normalizeFilename(
-    "02 - Ram Naam Ke Sabun Se..Narayan mil jayega ＊Pujya Prembhushanji Maharaj ＊Bhajan ＊.mp3"
-  )
-)
