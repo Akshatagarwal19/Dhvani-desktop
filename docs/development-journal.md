@@ -1333,3 +1333,85 @@ Dashboard
 Duplicate Management Center
 
 With Sprint 5 complete, Version 2 is now feature-complete and ready for final testing, polishing, bug fixing, and release preparation before beginning work on Version 3.
+
+📅 Development Journal — Sprint 6 Complete (Playback & Metadata Experience)
+
+Date: 1 August 2026
+
+Overview
+
+Sprint 6 focused on transforming Dhvani from a music library manager into a complete desktop music player. The existing playback functionality was redesigned into a cleaner "Now Playing" experience while significantly improving usability and laying the groundwork for future features such as shuffle, repeat, and playlists.
+
+Player Redesign
+Replaced the old "Selected Track" section with a dedicated Now Playing panel.
+Separated playback controls from metadata management.
+Redesigned the right-side panel to better resemble a modern desktop music player.
+Improved spacing and layout for playback controls.
+Playback Improvements
+
+Implemented a complete playback experience including:
+
+Play / Pause toggle button
+Previous track
+Next track
+Automatic playback of the next song when the current song finishes
+Progress bar
+Seek support by dragging the progress slider
+Current playback time
+Total song duration
+Volume slider
+Dynamic "Now Playing" information
+Metadata Experience
+
+Redesigned metadata editing workflow.
+
+Implemented:
+
+Metadata display mode
+Edit Metadata mode
+Save changes
+Cancel editing
+Automatic refresh after metadata update
+Automatic exit from edit mode after successful save
+
+This provides a cleaner user experience by separating viewing and editing states.
+
+Architecture Improvements
+
+Improved playback architecture by separating:
+
+selectedTrack (currently selected in the library)
+currentTrack (currently loaded in the player)
+
+This resolved several playback issues and creates a better foundation for future features including:
+
+Shuffle
+Repeat
+Playlist support
+Queue management
+Bug Fixes
+
+Resolved multiple playback-related issues including:
+
+Progress bar updates
+Dynamic duration display
+Seek functionality
+Volume control
+Track switching
+Auto-play next track
+Playback state synchronization
+React state synchronization issues affecting player events
+Sprint Outcome
+
+Sprint 6 successfully transformed Dhvani from a library management tool into a functional desktop music player while maintaining integrated metadata editing capabilities.
+
+Version 2 now includes:
+
+Library management
+Search, Sort & Filter
+Duplicate management
+Dashboard
+Music playback
+Metadata editing
+
+Only the final Release Polish sprint remains before Dhvani Desktop v2.0.
