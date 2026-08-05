@@ -1,55 +1,98 @@
 # Dhvani
 
-**Dhvani** is a desktop Music Library Manager built with **Electron**, **React**, and **TypeScript**. It helps you organize your local music collection by scanning folders, editing metadata, detecting duplicate songs, and playing audio files.
+> A modern desktop Music Library Manager built with **Electron**, **React**, and **TypeScript**.
+
+Dhvani helps you organize your local music collection by scanning folders, reading and editing metadata, detecting duplicate songs, and playing audio files through a clean desktop interface.
 
 ---
 
-## ✨ Features
+# 🚀 Version
 
-- ✅ Scan local music folders
-- ✅ Read song metadata
-- ✅ Edit metadata
-- ✅ Save metadata
-- ✅ Play songs
-- ✅ Detect duplicate songs
-- ✅ Move duplicate files to the Windows Recycle Bin
+**Current Release:** **v2.0.0**
 
 ---
 
-## 🛠️ Tech Stack
+# ✨ Features
+
+### 🎵 Music Library
+
+- Scan local music folders
+- Browse your music collection
+- Search songs instantly
+- Sort by Title, Artist, Album, or Duration
+- Filter tracks with missing metadata
+- Display library statistics
+
+### 🎧 Audio Player
+
+- Play and pause songs
+- Previous / Next track navigation
+- Progress bar with seeking
+- Volume control
+- Automatic playback of the next track
+
+### 📝 Metadata Editor
+
+- View metadata
+- Edit Title
+- Edit Artist
+- Edit Album
+- Save changes directly to audio files
+
+### 🔍 Duplicate Manager
+
+- Detect duplicate tracks
+- Intelligent recommendation for the best copy
+- Select duplicate files
+- Delete selected duplicates
+- Move files safely to the Windows Recycle Bin
+
+### 📊 Dashboard
+
+- Library overview
+- Song statistics
+- Artist count
+- Album count
+- Duplicate statistics
+- Total library duration
+
+### ⚙️ Settings
+
+- Application information
+- Playback capabilities
+- Library statistics
+- About Dhvani
+
+---
+
+# 🛠 Tech Stack
 
 - Electron
 - React
 - TypeScript
 - Electron Builder
+- Electron Vite
+- Lucide React
 - music-metadata
 - music-tag-native
 
 ---
 
-## 📸 Screenshots
+# 📸 Screenshots
 
-> Screenshots will be added later.
-
----
-
-## 🚀 Installation
-
-### Download
-
-Download the latest installer from the **GitHub Releases** page.
+Screenshots will be added in a future update.
 
 ---
 
-## 💻 Development
+# 💻 Development
 
-Install dependencies:
+Install dependencies
 
 ```bash
 npm install
 ```
 
-Start the development server:
+Run the application
 
 ```bash
 npm run dev
@@ -57,9 +100,9 @@ npm run dev
 
 ---
 
-## 📦 Build
+# 📦 Build
 
-Build the Windows application:
+Build the Windows installer
 
 ```bash
 npm run build:win
@@ -67,32 +110,30 @@ npm run build:win
 
 ---
 
-## 🗺️ Roadmap
+# 🗺 Roadmap
 
-### Version 1
+## Version 3
 
-- Music Library
-- Metadata Editing
-- Duplicate Detection
-- Audio Playback
+Planned improvements include:
 
-### Version 2
-
-- Better Duplicate Matching
-- Album Art
-- Search
-- Playlists
-- Batch Metadata Editing
-- Sorting & Filters
+- Playlist management
+- Album artwork support
+- Batch metadata editing
+- Drag-and-drop organization
+- Theme customization
+- Performance optimizations
+- Additional audio format support
 
 ---
 
-## 📄 License
+# 📄 License
 
 This project is licensed under the **MIT License**.
 
 ---
 
-## 👨‍💻 Author
+# 👨‍💻 Author
 
 **Akshat Agarwal**
+
+Built as a desktop music library management application using Electron, React, and TypeScript.
