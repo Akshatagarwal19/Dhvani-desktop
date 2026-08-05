@@ -6,6 +6,8 @@ import { sortTracks } from '../utils/sortTracks'
 import type { SortOption } from '../types/SortOption.ts'
 import { filterTracks } from '../utils/filterTracks'
 import type { FilterOption } from '../types/FilterOption'
+import { calculateLibraryStats, formatDuration } from '../utils/calculateLibraryStats'
+import { FileMusic, PenSquare, Search } from 'lucide-react'
 
 function LibraryPage() {
   const {
@@ -21,8 +23,9 @@ function LibraryPage() {
     activeFilter,
     setActiveFilter
   } = useLibrary()
+  const stats = calculateLibraryStats(tracks, duplicates)
 
-  console.log('Tracks:', tracks.length)
+  // console.log('Tracks:', tracks.length)
 
   const [selectedTrack, setSelectedTrack] = useState<Track | null>(null)
   const [editedTitle, setEditedTitle] = useState('')
@@ -52,14 +55,14 @@ function LibraryPage() {
     }
 
     audio.onended = async () => {
-      console.log('Song ended')
-      console.log(currentTrack)
+      // console.log('Song ended')
+      // console.log(currentTrack)
       setCurrentTime(0)
 
       await playNextTrack()
     }
     audio.onloadedmetadata = () => {
-      console.log(audio.duration)
+      // console.log(audio.duration)
       setDuration(audio.duration)
     }
 
@@ -179,13 +182,12 @@ function LibraryPage() {
       handleStopTrack()
       return
     }
-    console.log('Current:', selectedTrack?.name)
+    // console.log('Current:', selectedTrack?.name)
     await playTrack(nextTrack)
   }
   async function handleNextTrack() {
     await playNextTrack()
   }
-
   async function handlePreviousTrack() {
     if (!selectedTrack) return
 
@@ -206,8 +208,10 @@ function LibraryPage() {
 
   return (
     <div className="library-page">
+      <h1>Library</h1>
       <div className="library-actions">
         <div className="library-search">
+          <Search className="search-icon" size={18} />
           <input
             type="text"
             placeholder="Search library..."
@@ -251,6 +255,10 @@ function LibraryPage() {
           <p className="selected-folder-name">{selectedFolder.split('\\').pop()}</p>
 
           <p className="selected-folder-path">{selectedFolder}</p>
+
+          <p className="selected-folder-info">
+            {stats.totalTracks} Tracks • {formatDuration(stats.totalDuration)}
+          </p>
         </div>
       ) : (
         <p>No music folder selected.</p>
@@ -260,7 +268,7 @@ function LibraryPage() {
         {/* ===================== TRACK LIST ===================== */}
 
         <div className="track-list">
-          <h2>Tracks ({displayedTracks.length})</h2>
+          <h2>Library ({displayedTracks.length} Tracks)</h2>
 
           {tracks.length === 0 ? (
             <p>No supported audio files found.</p>
@@ -269,6 +277,7 @@ function LibraryPage() {
               {displayedTracks.map((track) => (
                 <li
                   key={track.path}
+                  className={selectedTrack?.path === track.path ? 'selected-track' : ''}
                   onClick={() => {
                     audio.pause()
                     audio.currentTime = 0
@@ -392,7 +401,10 @@ function LibraryPage() {
               {/* ===================== METADATA ===================== */}
 
               <div className="metadata-panel">
-                <h3>Metadata</h3>
+                <h3 className="metadata-title">
+                  <FileMusic size={20} />
+                  Metadata
+                </h3>
 
                 {!isEditingMetadata ? (
                   <>
@@ -411,7 +423,9 @@ function LibraryPage() {
                     </p>
                     <p>{editedAlbum || '-'}</p>
 
-                    <button onClick={() => setIsEditingMetadata(true)}>Edit Metadata</button>
+                    <button className="metadata-title" onClick={() => setIsEditingMetadata(true)}>
+                      <PenSquare /> Edit Metadata
+                    </button>
                   </>
                 ) : (
                   <>
@@ -433,21 +447,23 @@ function LibraryPage() {
 
                     <input value={editedAlbum} onChange={(e) => setEditedAlbum(e.target.value)} />
 
-                    <button onClick={handleSaveMetadata}>Save</button>
+                    <div className="metadata-actions">
+                      <button onClick={handleSaveMetadata}>Save</button>
 
-                    <button
-                      onClick={() => {
-                        if (!selectedTrack) return
+                      <button
+                        onClick={() => {
+                          if (!selectedTrack) return
 
-                        setEditedTitle(selectedTrack.title || '')
-                        setEditedArtist(selectedTrack.artist || '')
-                        setEditedAlbum(selectedTrack.album || '')
+                          setEditedTitle(selectedTrack.title || '')
+                          setEditedArtist(selectedTrack.artist || '')
+                          setEditedAlbum(selectedTrack.album || '')
 
-                        setIsEditingMetadata(false)
-                      }}
-                    >
-                      Cancel
-                    </button>
+                          setIsEditingMetadata(false)
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   </>
                 )}
               </div>

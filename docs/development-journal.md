@@ -458,265 +458,400 @@ Advanced detection methods and configuration options are postponed to Version 2.
 
 ## Next Sprint
 
-Sprint 7 – UI/UX Polish
+# 📅 Development Journal — Sprint 7 Complete (UI Foundation)
 
-Focus Areas:
+**Date:** 29 June 2026
 
-* Improve overall application layout.
-* Replace the temporary development UI.
-* Create a cleaner library view.
-* Improve spacing, typography and colors.
-* Prepare the interface for the integrated music player.
-* Make Dhvani feel like a polished desktop application while preserving its lightweight nature.
+## Overview
 
-Sprint 7 – UI Foundation
+Sprint 7 focused on transforming Dhvani's temporary development interface into a cleaner desktop-oriented application layout. The goal was to improve usability, organization, and visual consistency while preserving the lightweight nature of the application and preparing the interface for future playback features.
 
-Date: 29 June 2026
+---
 
-Sprint Goal
+## Sprint Goal
 
 Improve Dhvani's user interface so that it feels like a desktop application while keeping the focus on Version 1 functionality.
 
-Features Implemented
-Redesigned the overall application layout.
-Added a dedicated sidebar with navigation placeholders.
-Improved the application header.
-Organized the Library page into logical sections:
-Track List
-Selected Track
-Duplicate Groups
-Introduced card-based layout for better visual separation.
-Improved spacing, alignment and typography.
-Styled buttons and input fields.
-Added responsive two-column layout for the library and metadata editor.
-Design Decisions
-Focused on usability rather than visual effects.
-Kept the interface lightweight and desktop-oriented.
-Avoided unnecessary animations or complex styling.
-Continued postponing advanced UI polish until after Version 1.
-Lessons Learned
-A well-structured layout greatly improves usability without changing any functionality.
-Separating the page into logical UI sections makes future styling and maintenance much easier.
-Good UI is not only about appearance—it should help users work faster with large music libraries.
-Current Version 1 Progress
-✅ Sprint 1  Electron Foundation
-✅ Sprint 2  Folder Selection
-✅ Sprint 3  Library Scanner
-✅ Sprint 4  Metadata Reader
-✅ Sprint 5  Metadata Editor
-✅ Sprint 6  Duplicate Detection
-✅ Sprint 7  UI Foundation
+---
 
-⏳ Sprint 8  Music Player
-⏳ Sprint 9  Duplicate Management
-⏳ Sprint 10 Build, Testing & Release
+## Focus Areas
 
-Development Journal
-Sprint 8 – Basic Music Player
+* Improve the overall application layout.
+* Replace the temporary development UI.
+* Create a cleaner library view.
+* Improve spacing, typography, and colors.
+* Prepare the interface for the integrated music player.
+* Make Dhvani feel like a polished desktop application while preserving its lightweight nature.
 
-Date: 30 June 2026
+---
 
-Sprint Goal
+## Features Implemented
+
+### Layout Redesign
+
+* Redesigned the overall application layout.
+* Added a dedicated sidebar with navigation placeholders.
+* Improved the application header.
+* Organized the Library page into logical sections:
+
+  * Track List
+  * Selected Track
+  * Duplicate Groups
+
+### Visual Improvements
+
+* Introduced a card-based layout for better visual separation.
+* Improved spacing, alignment, and typography.
+* Styled buttons and input fields.
+* Added a responsive two-column layout for the library and metadata editor.
+
+---
+
+## Design Decisions
+
+* Focused on usability rather than visual effects.
+* Kept the interface lightweight and desktop-oriented.
+* Avoided unnecessary animations or complex styling.
+* Continued postponing advanced UI polish until after Version 1.
+
+---
+
+## Lessons Learned
+
+* A well-structured layout greatly improves usability without changing any functionality.
+* Separating the page into logical UI sections makes future styling and maintenance much easier.
+* Good UI is not only about appearance—it should help users work faster with large music libraries.
+
+---
+
+## Version 1 Progress
+
+* ✅ Sprint 1 — Electron Foundation
+* ✅ Sprint 2 — Folder Selection
+* ✅ Sprint 3 — Library Scanner
+* ✅ Sprint 4 — Metadata Reader
+* ✅ Sprint 5 — Metadata Editor
+* ✅ Sprint 6 — Duplicate Detection
+* ✅ Sprint 7 — UI Foundation
+* ⏳ Sprint 8 — Basic Music Player
+* ⏳ Sprint 9 — Duplicate Management
+* ⏳ Sprint 10 — Final Polish, Packaging & Testing
+
+---
+
+# 📅 Development Journal — Sprint 8 Complete (Basic Music Player)
+
+**Date:** 30 June 2026
+
+## Overview
+
+Sprint 8 introduced the first integrated music playback system in Dhvani, allowing users to preview songs directly within the application while managing their music library.
+
+---
+
+## Sprint Goal
 
 Implement a lightweight music player that allows users to preview songs while managing their music library.
 
-Features Implemented
-Added music playback support.
-Implemented Play, Pause and Stop controls.
-Added playback status indicator.
-Displayed currently selected track for playback.
-Automatically reset playback state when audio finishes.
-Prevented previous track from continuing when a different track is selected.
-Disabled playback controls when no track is selected.
-Technical Work
-Used the native HTML Audio API for playback.
-Read local audio files through Electron IPC.
-Converted audio data into browser-compatible Blob objects.
-Updated Content Security Policy (CSP) to allow media playback.
-Successfully played local music files inside Electron.
-Challenges Faced
+---
 
-During implementation we encountered several Electron-specific issues:
+## Features Implemented
 
-Direct Windows file paths could not be loaded by the renderer.
-Browser security blocked access to local media files.
-Content Security Policy prevented playback of Blob URLs.
-Electron IPC required transferring binary audio data from the main process to the renderer.
+### Playback Controls
+
+* Added music playback support.
+* Implemented **Play**, **Pause**, and **Stop** controls.
+* Added playback status indicator.
+* Displayed the currently selected track for playback.
+* Automatically reset playback state when audio finishes.
+* Prevented the previous track from continuing when a different track is selected.
+* Disabled playback controls when no track is selected.
+
+---
+
+## Technical Work
+
+* Used the native **HTML Audio API** for playback.
+* Read local audio files through Electron IPC.
+* Converted audio data into browser-compatible Blob objects.
+* Updated the Content Security Policy (CSP) to allow media playback.
+* Successfully played local music files inside Electron.
+
+---
+
+## Challenges Faced
+
+During implementation several Electron-specific issues were resolved:
+
+* Direct Windows file paths could not be loaded by the renderer.
+* Browser security blocked access to local media files.
+* Content Security Policy prevented playback of Blob URLs.
+* Electron IPC required transferring binary audio data from the main process to the renderer.
 
 Each issue was investigated individually until playback was successfully achieved.
 
-Known Issues
-Minor TypeScript typing warning while creating a Blob from the IPC-returned Uint8Array.
-This does not affect runtime functionality.
-Planned to be resolved during Sprint 10 (Final Polish).
-Design Decisions
-Chose the native HTML Audio API instead of introducing additional player libraries.
-Kept the player intentionally lightweight.
-Deferred advanced playback features (seek bar, playlist queue, repeat, shuffle, equalizer) to future versions.
-Lessons Learned
-Electron applications require different handling for local media than standard web applications.
-Security mechanisms such as CSP and IPC architecture are important considerations when working with local files.
-A simple implementation is often sufficient for Version 1 when the application's primary purpose is library management rather than media playback.
-Current Version 1 Progress
-✅ Sprint 1  Electron Foundation
-✅ Sprint 2  Folder Selection
-✅ Sprint 3  Library Scanner
-✅ Sprint 4  Metadata Reader
-✅ Sprint 5  Metadata Editor
-✅ Sprint 6  Duplicate Detection
-✅ Sprint 7  UI Foundation
-✅ Sprint 8  Basic Music Player
+---
 
-⏳ Sprint 9  Duplicate Management
-⏳ Sprint 10 Final Polish, Packaging & Testing
-Version 1 Status
+## Known Issues
+
+A minor TypeScript typing warning remained while creating a Blob from the IPC-returned `Uint8Array`.
+
+This does not affect runtime functionality and was planned to be resolved during Sprint 10.
+
+---
+
+## Design Decisions
+
+* Chose the native **HTML Audio API** instead of introducing additional playback libraries.
+* Kept the player intentionally lightweight.
+* Deferred advanced playback features such as seek, playlists, repeat, shuffle, and equalizer support to future versions.
+
+---
+
+## Lessons Learned
+
+* Electron applications require different handling for local media than standard web applications.
+* Security mechanisms such as CSP and IPC architecture are important considerations when working with local files.
+* A simple implementation is often sufficient for Version 1 when the primary goal is music library management.
+
+---
+
+## Version 1 Progress
+
+* ✅ Sprint 1 — Electron Foundation
+* ✅ Sprint 2 — Folder Selection
+* ✅ Sprint 3 — Library Scanner
+* ✅ Sprint 4 — Metadata Reader
+* ✅ Sprint 5 — Metadata Editor
+* ✅ Sprint 6 — Duplicate Detection
+* ✅ Sprint 7 — UI Foundation
+* ✅ Sprint 8 — Basic Music Player
+* ⏳ Sprint 9 — Duplicate Management
+* ⏳ Sprint 10 — Final Polish, Packaging & Testing
+
+---
+
+## Version 1 Status
 
 At the end of Sprint 8, Dhvani can:
 
-✅ Scan music folders.
-✅ Read song metadata.
-✅ Edit and save metadata.
-✅ Detect duplicate songs.
-✅ Play local audio files.
-✅ Present the library through a desktop interface.
+* ✅ Scan music folders.
+* ✅ Read song metadata.
+* ✅ Edit and save metadata.
+* ✅ Detect duplicate songs.
+* ✅ Play local audio files.
+* ✅ Present the library through a desktop interface.
 
-Version 1 has now reached the stage where all major user-facing features exist. The remaining work focuses on completing the duplicate management workflow and polishing the overall user experience before release.
+Version 1 had now reached the stage where all major user-facing features existed, with the remaining work focused on duplicate management and release preparation.
 
-Sprint 9 – Duplicate Management
+---
 
-Date: 30 June 2026
+# 📅 Development Journal — Sprint 9 Complete (Duplicate Management)
 
-Sprint Goal
+**Date:** 30 June 2026
+
+## Overview
+
+Sprint 9 completed the duplicate management workflow by allowing users to safely remove duplicate songs from their music library using the Windows Recycle Bin.
+
+---
+
+## Sprint Goal
 
 Complete the duplicate management workflow by allowing users to safely remove duplicate songs from their music library.
 
-Features Implemented
-Duplicate Management
-Added "Move to Recycle Bin" functionality.
-Implemented confirmation dialog before moving files.
-Successfully integrated Electron's native Recycle Bin support.
-Verified duplicate files are moved safely instead of being permanently deleted.
-Library Refresh
-Introduced reusable loadLibrary() function.
-Automatically reloads the library after duplicate removal.
-Automatically refreshes duplicate groups after rescanning.
-Removed deleted songs from the interface without requiring a manual rescan.
-Duplicate Detection Improvements
-Updated duplicate detection to accept an optional track list.
-Eliminated state synchronization issues after library refresh.
-Improved consistency between the displayed library and duplicate groups.
-Design Decisions
+---
 
-Version 1 intentionally focuses on safe duplicate management.
+## Features Implemented
+
+### Duplicate Management
+
+* Added **Move to Recycle Bin** functionality.
+* Implemented a confirmation dialog before moving files.
+* Successfully integrated Electron's native Windows Recycle Bin support.
+* Verified that duplicate files are moved safely instead of being permanently deleted.
+
+### Library Refresh
+
+* Introduced a reusable `loadLibrary()` function.
+* Automatically reloaded the library after duplicate removal.
+* Automatically refreshed duplicate groups after rescanning.
+* Removed deleted songs from the interface without requiring a manual rescan.
+
+### Duplicate Detection Improvements
+
+* Updated duplicate detection to accept an optional track list.
+* Eliminated state synchronization issues after library refresh.
+* Improved consistency between the displayed library and duplicate groups.
+
+---
+
+## Design Decisions
+
+Version 1 intentionally focused on **safe duplicate management**.
 
 Included:
 
-Safe deletion through Windows Recycle Bin.
-User confirmation before deletion.
-Automatic library refresh.
+* Safe deletion through the Windows Recycle Bin.
+* User confirmation before deletion.
+* Automatic library refresh.
 
 Deferred to Version 2:
 
-Permanent delete.
-Batch deletion.
-Automatic best-copy selection.
-Advanced duplicate scoring.
-Acoustic fingerprint matching.
-Technical Improvements
-Added reusable library loading logic.
-Improved interaction between scanning and duplicate detection.
-Reduced duplicated code by centralizing library refresh.
-Lessons Learned
-Refreshing application state immediately after filesystem operations greatly improves user experience.
-Separating library loading from folder selection simplifies future maintenance.
-Safety should be prioritized when an application modifies user files.
-Current Version 1 Progress
-✅ Sprint 1  Electron Foundation
-✅ Sprint 2  Folder Selection
-✅ Sprint 3  Library Scanner
-✅ Sprint 4  Metadata Reader
-✅ Sprint 5  Metadata Editor
-✅ Sprint 6  Duplicate Detection
-✅ Sprint 7  UI Foundation
-✅ Sprint 8  Basic Music Player
-✅ Sprint 9  Duplicate Management
+* Permanent delete.
+* Batch deletion.
+* Automatic best-copy selection.
+* Advanced duplicate scoring.
+* Acoustic fingerprint matching.
 
-⏳ Sprint 10 Final Polish, Testing & Release
-Version 1 Status
+---
+
+## Technical Improvements
+
+* Added reusable library loading logic.
+* Improved interaction between scanning and duplicate detection.
+* Reduced duplicated code by centralizing library refresh.
+
+---
+
+## Lessons Learned
+
+* Refreshing application state immediately after filesystem operations greatly improves user experience.
+* Separating library loading from folder selection simplifies future maintenance.
+* Safety should be prioritized when an application modifies user files.
+
+---
+
+## Version 1 Progress
+
+* ✅ Sprint 1 — Electron Foundation
+* ✅ Sprint 2 — Folder Selection
+* ✅ Sprint 3 — Library Scanner
+* ✅ Sprint 4 — Metadata Reader
+* ✅ Sprint 5 — Metadata Editor
+* ✅ Sprint 6 — Duplicate Detection
+* ✅ Sprint 7 — UI Foundation
+* ✅ Sprint 8 — Basic Music Player
+* ✅ Sprint 9 — Duplicate Management
+* ⏳ Sprint 10 — Final Polish, Packaging & Testing
+
+---
+
+## Version 1 Status
 
 Dhvani Version 1 now supports:
 
-✅ Music library scanning.
-✅ Metadata extraction.
-✅ Metadata editing and saving.
-✅ Duplicate song detection.
-✅ Safe duplicate removal using the Windows Recycle Bin.
-✅ Local music playback.
-✅ Desktop-based user interface.
+* ✅ Music library scanning.
+* ✅ Metadata extraction.
+* ✅ Metadata editing and saving.
+* ✅ Duplicate song detection.
+* ✅ Safe duplicate removal using the Windows Recycle Bin.
+* ✅ Local music playback.
+* ✅ Desktop-based user interface.
 
-All core functional goals planned for Version 1 have now been implemented.
-Sprint 10 – Release & Packaging
+All core functional goals planned for Version 1 had now been implemented.
 
-Date: 30 June 2026
+---
 
-Sprint Goal
+# 📅 Development Journal — Sprint 10 Complete (Release & Packaging)
+
+**Date:** 30 June 2026
+
+## Overview
+
+Sprint 10 finalized Dhvani Version 1 by polishing the application, resolving remaining technical issues, configuring the Windows build process, and generating a standalone installer.
+
+---
+
+## Sprint Goal
 
 Finalize Dhvani Version 1 by polishing the application, resolving remaining technical issues, configuring the Windows build process, and generating a standalone installer.
 
-Release Improvements
-Finalized user interface for Version 1.
-Improved application stability and overall user experience.
-Completed final code cleanup.
-Removed remaining TypeScript issues.
-Improved audio playback handling and resource cleanup.
-Refined duplicate management workflow.
-Verified metadata editing and library refresh.
-Windows Packaging
-Configured Electron Builder for Windows releases.
-Updated application metadata (productName, appId, version information).
-Created and configured application resources.
-Added a custom Dhvani application icon.
-Resolved Electron Builder icon compatibility requirements.
-Successfully generated a standalone Windows installer.
-Verified that the packaged application launches correctly outside the development environment.
-Functional Verification
+---
 
-Verified the packaged application successfully performs:
+## Release Improvements
 
-Music folder selection
-Library scanning
-Metadata reading
-Metadata editing
-Metadata saving
-Audio playback
-Duplicate detection
-Moving duplicate files to the Windows Recycle Bin
-Automatic library refresh
-Stable playback controls
-Release Summary
+* Finalized the user interface for Version 1.
+* Improved application stability and overall user experience.
+* Completed final code cleanup.
+* Removed remaining TypeScript issues.
+* Improved audio playback handling and resource cleanup.
+* Refined duplicate management workflow.
+* Verified metadata editing and library refresh.
+
+---
+
+## Windows Packaging
+
+* Configured **Electron Builder** for Windows releases.
+* Updated application metadata (`productName`, `appId`, and version information).
+* Created and configured application resources.
+* Added a custom Dhvani application icon.
+* Resolved Electron Builder icon compatibility requirements.
+* Successfully generated a standalone Windows installer.
+* Verified that the packaged application launches correctly outside the development environment.
+
+---
+
+## Functional Verification
+
+Verified that the packaged application successfully performs:
+
+* Music folder selection
+* Library scanning
+* Metadata reading
+* Metadata editing
+* Metadata saving
+* Audio playback
+* Duplicate detection
+* Moving duplicate files to the Windows Recycle Bin
+* Automatic library refresh
+* Stable playback controls
+
+---
+
+## Release Summary
 
 Dhvani Version 1.0.0 delivers:
 
-Desktop music library management
-Metadata editing
-Duplicate detection
-Safe duplicate removal
-Integrated audio playback
-Native Windows installation
+* Desktop music library management
+* Metadata editing
+* Duplicate detection
+* Safe duplicate removal
+* Integrated audio playback
+* Native Windows installation
 
 The application has successfully transitioned from a development project into a distributable desktop application.
 
-Sprint Timeline
-Sprint 1  ✓ Electron Foundation
-Sprint 2  ✓ Folder Selection
-Sprint 3  ✓ Library Scanner
-Sprint 4  ✓ Metadata Reader
-Sprint 5  ✓ Metadata Editor
-Sprint 6  ✓ Duplicate Detection
-Sprint 7  ✓ UI Foundation
-Sprint 8  ✓ Basic Music Player
-Sprint 9  ✓ Duplicate Management
-Sprint 10 ✓ Final Polish & Windows Release
+---
+
+## Sprint Timeline
+
+* ✅ Sprint 1 — Electron Foundation
+* ✅ Sprint 2 — Folder Selection
+* ✅ Sprint 3 — Library Scanner
+* ✅ Sprint 4 — Metadata Reader
+* ✅ Sprint 5 — Metadata Editor
+* ✅ Sprint 6 — Duplicate Detection
+* ✅ Sprint 7 — UI Foundation
+* ✅ Sprint 8 — Basic Music Player
+* ✅ Sprint 9 — Duplicate Management
+* ✅ Sprint 10 — Final Polish & Windows Release
+
+---
+
+## Version 1 Outcome
+
+With Sprint 10 complete, **Dhvani Version 1.0.0** successfully includes:
+
+* Music library management
+* Metadata editing
+* Duplicate detection
+* Safe duplicate removal
+* Integrated music playback
+* Native Windows packaging and installation
+
+Version 1 established the complete foundation for future versions, including advanced playback controls, playlists, queue management, and enhanced duplicate management features.
 
 ==============================
 
@@ -1170,111 +1305,123 @@ The Dashboard now provides users with immediate context about their current musi
 
 It serves as an effective home page for Dhvani Version 2.
 ----------
-Version 2 - Sprint 5 Complete
+# 📅 Development Journal — Sprint 5 Complete (Duplicate Management Center)
 
-Sprint Name: Duplicate Management Center
+**Sprint Name:** Duplicate Management Center
 
-Objective
+## Objective
 
 Transform the duplicate detection system from a simple scanner into a complete duplicate management workflow, allowing users to review, compare, select, and safely remove duplicate tracks from their music library.
 
-Features Implemented
-Duplicate Management Interface
-Created a dedicated Duplicates page.
-Displayed duplicate tracks grouped together for easier review.
-Added duplicate group count and track count per group.
-Track Information
+---
+
+## Features Implemented
+
+### Duplicate Management Interface
+
+* Created a dedicated **Duplicates** page.
+* Displayed duplicate tracks grouped together for easier review.
+* Added duplicate group count and track count per group.
+
+### Track Information
 
 Each duplicate entry now displays:
 
-Title
-Artist
-Duration
-Bitrate
-File Size
+* Title
+* Artist
+* Duration
+* Bitrate
+* File Size
 
 Added helper utilities:
 
-formatBitrate()
-formatFileSize()
-Intelligent Duplicate Selection
+* `formatBitrate()`
+* `formatFileSize()`
+
+### Intelligent Duplicate Selection
 
 Implemented:
 
-Individual checkbox selection
-Select Duplicates
-Automatically selects every duplicate while leaving the highest-quality copy unselected.
-Select None
+* Individual checkbox selection
+* **Select Duplicates**
+
+  * Automatically selects every duplicate while leaving the highest-quality copy unselected.
+* **Select None**
 
 Selection is managed using:
 
-Set<string>
+`Set<string>`
 
 for efficient lookup and updates.
 
-Recommended Track System
+### Recommended Track System
 
 Created reusable helper:
 
-getRecommendedTrack()
+`getRecommendedTrack()`
 
 Recommendation priority:
 
-Highest bitrate
-Largest file size (tie breaker)
+1. Highest bitrate
+2. Largest file size (tie breaker)
 
 The recommended track is highlighted with:
 
-⭐ Recommended
+**⭐ Recommended**
 
 This helper is now reusable for future cleanup features.
 
-Duplicate Cleanup
+### Duplicate Cleanup
 
 Implemented two cleanup workflows.
 
-Individual Cleanup
+#### Individual Cleanup
 
 Each duplicate row includes:
 
-Move to Recycle Bin
+**Move to Recycle Bin**
 
 which:
 
-asks for confirmation
-moves the selected file to the system Recycle Bin
-refreshes the music library
-rescans duplicate groups
-Bulk Cleanup
+* asks for confirmation
+* moves the selected file to the system Recycle Bin
+* refreshes the music library
+* rescans duplicate groups
+
+#### Bulk Cleanup
 
 Implemented:
 
-Delete Selected
+**Delete Selected**
 
 Workflow:
 
-confirmation dialog
-deletes every selected duplicate
-refreshes library once
-rescans duplicates once
-clears selection
-displays completion message
+* confirmation dialog
+* deletes every selected duplicate
+* refreshes library once
+* rescans duplicates once
+* clears selection
+* displays completion message
 
 This avoids repeated rescanning after every deleted file and greatly improves performance.
 
-User Feedback
+---
+
+## User Feedback
 
 Added:
 
-Selected track counter
+* Selected track counter
 
 Example:
 
-5 tracks selected
+`5 tracks selected`
 
-Bulk delete button is automatically disabled when no tracks are selected.
+The bulk delete button is automatically disabled when no tracks are selected.
 
-Major Debugging Session
+---
+
+## Major Debugging Session
 
 One of the biggest investigations of Version 2 occurred during this sprint.
 
@@ -1282,136 +1429,268 @@ Duplicate detection initially worked correctly on small test folders but failed 
 
 After tracing:
 
-metadata extraction
-scanner output
-filename normalization
-text similarity
-duplicate grouping
-scoring algorithm
+* metadata extraction
+* scanner output
+* filename normalization
+* text similarity
+* duplicate grouping
+* scoring algorithm
 
 the root cause was identified:
 
-Many MP3 files contained no embedded metadata, causing the duplicate confidence score to never reach the original threshold.
+Many MP3 files contained **no embedded metadata**, causing the duplicate confidence score to never reach the original threshold.
 
 The duplicate threshold was adjusted to better support real-world music collections while maintaining acceptable accuracy.
 
 This debugging session significantly improved the reliability of duplicate detection across different libraries.
 
-Architecture Improvements
+---
+
+## Architecture Improvements
 
 Created reusable utility:
 
-src/utils/getRecommendedTrack.ts
+`src/utils/getRecommendedTrack.ts`
 
 This removes duplicate recommendation logic from UI components and centralizes the decision process.
 
 Future features can now reuse the same recommendation logic without duplication.
 
-Sprint Outcome
+---
+
+## Sprint Outcome
 
 Sprint 5 successfully transformed duplicate detection into a practical duplicate management tool.
 
 Users can now:
 
-detect duplicates
-review duplicate groups
-compare file quality
-identify the recommended copy
-select duplicates intelligently
-delete individual duplicates
-bulk delete duplicates safely
-Sprint Status
+* detect duplicates
+* review duplicate groups
+* compare file quality
+* identify the recommended copy
+* select duplicates intelligently
+* delete individual duplicates
+* bulk delete duplicates safely
 
-Status: ✅ Completed
+---
 
-Looking Ahead
+## Sprint Status
+
+**Status:** ✅ Completed
+
+---
+
+## Looking Ahead
 
 Version 2 now includes:
 
-Music Library
-Dashboard
-Duplicate Management Center
+* Music Library
+* Dashboard
+* Duplicate Management Center
 
-With Sprint 5 complete, Version 2 is now feature-complete and ready for final testing, polishing, bug fixing, and release preparation before beginning work on Version 3.
+With Sprint 5 complete, Version 2 is now feature-complete and ready for final testing, polishing, bug fixing, and release preparation before beginning work on **Version 3**.
 
-📅 Development Journal — Sprint 6 Complete (Playback & Metadata Experience)
 
-Date: 1 August 2026
+# 📅 Development Journal — Sprint 6 Complete (Playback & Metadata Experience)
 
-Overview
+**Date:** 1 August 2026
 
-Sprint 6 focused on transforming Dhvani from a music library manager into a complete desktop music player. The existing playback functionality was redesigned into a cleaner "Now Playing" experience while significantly improving usability and laying the groundwork for future features such as shuffle, repeat, and playlists.
+## Overview
 
-Player Redesign
-Replaced the old "Selected Track" section with a dedicated Now Playing panel.
-Separated playback controls from metadata management.
-Redesigned the right-side panel to better resemble a modern desktop music player.
-Improved spacing and layout for playback controls.
-Playback Improvements
+Sprint 6 focused on transforming **Dhvani** from a music library manager into a complete desktop music player. The existing playback functionality was redesigned into a cleaner **Now Playing** experience while significantly improving usability and laying the groundwork for future features such as **shuffle, repeat, and playlists**.
+
+---
+
+## Player Redesign
+
+* Replaced the old **Selected Track** section with a dedicated **Now Playing** panel.
+* Separated playback controls from metadata management.
+* Redesigned the right-side panel to better resemble a modern desktop music player.
+* Improved spacing and layout for playback controls.
+
+---
+
+## Playback Improvements
 
 Implemented a complete playback experience including:
 
-Play / Pause toggle button
-Previous track
-Next track
-Automatic playback of the next song when the current song finishes
-Progress bar
-Seek support by dragging the progress slider
-Current playback time
-Total song duration
-Volume slider
-Dynamic "Now Playing" information
-Metadata Experience
+* Play / Pause toggle button
+* Previous track
+* Next track
+* Automatic playback of the next song when the current song finishes
+* Progress bar
+* Seek support by dragging the progress slider
+* Current playback time
+* Total song duration
+* Volume slider
+* Dynamic **Now Playing** information
 
-Redesigned metadata editing workflow.
+---
+
+## Metadata Experience
+
+Redesigned the metadata editing workflow.
 
 Implemented:
 
-Metadata display mode
-Edit Metadata mode
-Save changes
-Cancel editing
-Automatic refresh after metadata update
-Automatic exit from edit mode after successful save
+* Metadata display mode
+* Edit Metadata mode
+* Save changes
+* Cancel editing
+* Automatic refresh after metadata update
+* Automatic exit from edit mode after successful save
 
-This provides a cleaner user experience by separating viewing and editing states.
+This provides a cleaner user experience by separating **viewing** and **editing** states.
 
-Architecture Improvements
+---
+
+## Architecture Improvements
 
 Improved playback architecture by separating:
 
-selectedTrack (currently selected in the library)
-currentTrack (currently loaded in the player)
+* **selectedTrack** — currently selected in the library
+* **currentTrack** — currently loaded in the player
 
 This resolved several playback issues and creates a better foundation for future features including:
 
-Shuffle
-Repeat
-Playlist support
-Queue management
-Bug Fixes
+* Shuffle
+* Repeat
+* Playlist support
+* Queue management
+
+---
+
+## Bug Fixes
 
 Resolved multiple playback-related issues including:
 
-Progress bar updates
-Dynamic duration display
-Seek functionality
-Volume control
-Track switching
-Auto-play next track
-Playback state synchronization
-React state synchronization issues affecting player events
-Sprint Outcome
+* Progress bar updates
+* Dynamic duration display
+* Seek functionality
+* Volume control
+* Track switching
+* Auto-play next track
+* Playback state synchronization
+* React state synchronization issues affecting player events
 
-Sprint 6 successfully transformed Dhvani from a library management tool into a functional desktop music player while maintaining integrated metadata editing capabilities.
+---
 
-Version 2 now includes:
+## Sprint Outcome
 
-Library management
-Search, Sort & Filter
-Duplicate management
-Dashboard
-Music playback
-Metadata editing
+Sprint 6 successfully transformed **Dhvani** from a library management tool into a functional desktop music player while maintaining integrated metadata editing capabilities.
 
-Only the final Release Polish sprint remains before Dhvani Desktop v2.0.
+### Version 2 now includes
+
+* Library management
+* Search, Sort & Filter
+* Duplicate management
+* Dashboard
+* Music playback
+* Metadata editing
+
+Only the final **Release Polish** sprint remains before **Dhvani Desktop v2.0**.
+
+# 📅 Development Journal — Sprint 7 Complete (UI Polish & Release Preparation)
+
+**Date:** 1 August 2026
+
+## Overview
+
+Sprint 7 shifted the focus from building new features to refining the overall user experience, creating a consistent desktop application interface, and preparing **Dhvani Version 2** for release. The goal was to unify the visual language across the application while improving usability, spacing, typography, and navigation.
+
+---
+
+## Objective
+
+Shift the focus from feature development to **UI/UX refinement and release preparation**, ensuring that every page feels consistent, polished, and desktop-oriented.
+
+---
+
+## Dashboard Improvements
+
+* Removed the global header from `MainLayout` so each page owns its own heading.
+* Reduced unnecessary top spacing, eliminating the dashboard scrollbar.
+* Improved spacing between sections for a cleaner and more compact layout.
+* Maintained the card-based design introduced in earlier sprints.
+
+---
+
+## Sidebar Improvements
+
+* Replaced emoji navigation icons with **Lucide icons**.
+* Improved active navigation styling.
+* Added smoother hover animations and refined spacing.
+* Created a more modern desktop application navigation experience.
+
+---
+
+## Library Improvements
+
+* Added a dedicated **Library** page heading.
+* Added a **Lucide search icon** inside the search input.
+* Enhanced the **Selected Library** card by displaying:
+
+  * Current library name
+  * Full library path
+  * Total tracks
+  * Total library duration
+* Improved the metadata section using Lucide icons.
+* Refined metadata editing controls.
+* Continued polishing the redesigned music player introduced in Sprint 6.
+* Improved spacing and overall visual consistency throughout the page.
+
+---
+
+## Duplicate Management Improvements
+
+* Redesigned the duplicate management action bar.
+* Added Lucide icons for duplicate actions.
+* Added a selected track counter.
+* Introduced a styled **Recommended** badge for the preferred duplicate.
+* Improved delete actions with compact buttons.
+* Added hover effects for duplicate rows.
+* Replaced remaining inline styles with reusable CSS classes where appropriate.
+* Improved spacing and consistency across duplicate groups.
+
+---
+
+## Settings Redesign
+
+* Completely redesigned the page into a **four-card layout**.
+* Added sections for:
+
+  * General information
+  * Playback capabilities
+  * Live library statistics
+  * About Dhvani
+* Reused existing library statistics instead of duplicating logic.
+* Created a cleaner preferences-style layout matching the rest of the application.
+
+---
+
+## Overall UI Improvements
+
+* Improved consistency across all pages.
+* Standardized card layouts, spacing, typography, and button styling.
+* Continued replacing UI emojis with Lucide icons where appropriate while retaining music-related emojis (such as **🎵 Now Playing**) for personality.
+* Shifted the overall focus from feature development to creating a cohesive desktop application experience.
+
+---
+
+## Sprint Outcome
+
+Sprint 7 successfully unified the visual design of **Dhvani Version 2**, making the application feel significantly more polished and desktop-native. Navigation, layout, metadata editing, duplicate management, and settings now share a consistent design language, providing a stronger foundation for release.
+
+---
+
+## Sprint Status
+
+**Status:** 🚧 Release Polish in Progress
+
+### Remaining Work
+
+* Final consistency review across all pages.
+* Empty state improvements.
+* End-to-end application testing.
+* GitHub README update with Version 2 features and screenshots.
+* Final **Dhvani Version 2** release preparation.

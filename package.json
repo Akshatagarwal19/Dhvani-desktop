@@ -1,11 +1,11 @@
 {
   "name": "dhvani",
   "productName": "Dhvani",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Desktop Music Library Manager",
   "main": "./out/main/index.js",
   "author": "Akshat Agarwal",
-  "homepage":  "https://github.com/Akshatagarwal19/Dhvani-desktop",
+  "homepage": "https://github.com/Akshatagarwal19/Dhvani-desktop",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint --cache .",
@@ -24,6 +24,7 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.2",
     "@electron-toolkit/utils": "^4.0.0",
+    "lucide-react": "^1.28.0",
     "music-metadata": "^11.13.0",
     "music-tag-native": "^1.0.0"
   },

@@ -42,7 +42,7 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
 
   async function loadLibrary(folder: string) {
     const scannedTracks = await window.api.scanMusicFolder(folder)
-    console.log(scannedTracks)
+    // console.log(scannedTracks)
     console.table(
   scannedTracks
     .filter(track =>

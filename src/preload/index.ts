@@ -24,9 +24,6 @@ const api = {
   getAudioUrl: (filePath: string) => pathToFileURL(filePath).href
 }
 
-// Use `contextBridge` APIs to expose Electron APIs to
-// renderer only if context isolation is enabled, otherwise
-// just add to the DOM global.
 if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)

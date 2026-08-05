@@ -1,4 +1,4 @@
-import Header from '../components/Header'
+// import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
 import type { Page } from '../types/Page'
 
@@ -21,7 +21,7 @@ function MainLayout({
       />
 
       <div className="content-wrapper">
-        <Header currentPage={currentPage} />
+        {/* <Header currentPage={currentPage} /> */}
 
         <main className="page-content">
           {children}

@@ -6,6 +6,7 @@ import { compareTracks } from '../utils/compareTracks'
 import { formatBitrate } from '../utils/formatBitrate'
 import { formatFileSize } from '../utils/formatFileSize'
 import { getRecommendedTrack } from '../utils/getRecommendedTrack'
+import { Copy, CheckSquare, Trash2 } from 'lucide-react'
 
 function DuplicatesPage() {
   const [selectedTracks, setSelectedTracks] = useState<Set<string>>(new Set())
@@ -75,7 +76,6 @@ function DuplicatesPage() {
       return updated
     })
   }
-
   function handleSelectDuplicates() {
     const selected = new Set<string>()
 
@@ -91,11 +91,9 @@ function DuplicatesPage() {
 
     setSelectedTracks(selected)
   }
-
   function handleSelectNone() {
     setSelectedTracks(new Set())
   }
-
   return (
     <div>
       <h1>Duplicates</h1>
@@ -105,20 +103,27 @@ function DuplicatesPage() {
 
       <hr />
       <div className="duplicate-section">
-        <div style={{ marginBottom: '12px' }}>
-          <button onClick={handleSelectDuplicates}>Select Duplicates</button>
+        <div className="duplicate-actions">
+          <button onClick={handleSelectDuplicates}>
+            <CheckSquare size={16} />
+            Select All
+          </button>
 
           <button style={{ marginLeft: '10px' }} onClick={handleSelectNone}>
-            Select None
+            Clear
           </button>
           <button onClick={handleDeleteSelected} disabled={selectedTracks.size === 0}>
+            <Trash2 size={16} />
             Delete Selected
           </button>
           <p style={{ marginTop: '10px' }}>
-            {selectedTracks.size} track{selectedTracks.size !== 1 ? 's' : ''} selected
+            <strong>{selectedTracks.size}</strong> track{selectedTracks.size !== 1 ? 's' : ''} selected
           </p>
         </div>
-        <h2>Duplicate Groups ({duplicates.length})</h2>
+        <h2 className="duplicate-heading">
+          <Copy size={24} />
+          Duplicate Groups ({duplicates.length})
+        </h2>
 
         {duplicates.length === 0 ? (
           <p>No duplicates found.</p>
@@ -126,25 +131,12 @@ function DuplicatesPage() {
           duplicates.map((group, index) => {
             const recommended = getRecommendedTrack(group)
             return (
-              <div
-                key={index}
-                style={{
-                  border: '1px solid gray',
-                  marginBottom: '12px',
-                  padding: '10px'
-                }}
-              >
+              <div key={index} className="duplicate-group">
                 <strong>Duplicate Group {index + 1}</strong>
 
                 <p>{group.length} songs found</p>
 
-                <table
-                  style={{
-                    width: '100%',
-                    borderCollapse: 'collapse',
-                    marginTop: '10px'
-                  }}
-                >
+                <table className="duplicate-table"                >
                   <thead>
                     <tr>
                       <th>Select</th>
@@ -171,7 +163,7 @@ function DuplicatesPage() {
                           {track.title || track.name}
 
                           {track.path === recommended.path && (
-                            <span style={{ marginLeft: '8px', color: 'green', fontWeight: 'bold' }}>
+                            <span className="recommended-badge">
                               ⭐ Recommended
                             </span>
                           )}
@@ -192,9 +184,7 @@ function DuplicatesPage() {
                         <td>{formatFileSize(track.size)}</td>
 
                         <td>
-                          <button onClick={() => handleDeleteDuplicate(track)}>
-                            Move to Recycle Bin
-                          </button>
+                          <button onClick={() => handleDeleteDuplicate(track)}className="delete-track"><Trash2 size={15}/></button>
                         </td>
                       </tr>
                     ))}
